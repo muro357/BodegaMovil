@@ -14,7 +14,7 @@ namespace BodegaMovil.Services.Maps.AutoMapper
     {
         public PedidoProfile()
         {
-            CreateMap<Pedido, PedidoDTO>();
+            CreateMap<Pedido, PedidoDTO>().ReverseMap();
                /* .ForMember(dest => dest.Consecutivo, opt => opt.MapFrom(src => src.Consecutivo))
                 .ForMember(dest => dest., opt => opt.MapFrom(src => src.Fecha))
                 .ForMember(dest => dest.Descripcion, opt => opt.MapFrom(src => src.Descripcion))
@@ -29,7 +29,7 @@ namespace BodegaMovil.Services.Maps.AutoMapper
     {
         public PedidoDetalleProfile()
         {
-            CreateMap<PedidoDetalle,PedidoDetalleDTO>();
+            CreateMap<PedidoDetalle,PedidoDetalleDTO>().ReverseMap();
         }
     }
 }

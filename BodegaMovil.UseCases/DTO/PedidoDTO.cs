@@ -12,6 +12,7 @@ namespace BodegaMovil.UseCases.DTO
         public int Consecutivo { get; set; }
         public int ID_Tienda { get; set; }
         public int ID_Area { get; set; }
+        public int ID_AreaSurtir { get; set; }  
         public TipoPedido Tipo { get; set; } //Puede ser Sugerido o Especial
         public string DescripcionTienda { get; set; }
         public string DescripcionArea { get; set; }

@@ -9,18 +9,18 @@ using System.Threading.Tasks;
 
 namespace BodegaMovil.UseCases
 {
-    public class GetPedidoUseCase
+    public class GetPedidoSurtirUseCase
     {
         private readonly IPedidoRepository _pedidoRepository;
 
-        public GetPedidoUseCase(IPedidoRepository pedidoRepository)
+        public GetPedidoSurtirUseCase(IPedidoRepository pedidoRepository)
         {
             _pedidoRepository = pedidoRepository;
         }
 
-        public async Task<PedidoDTO> ExecuteAsync(int consecutivo, int id_tienda)
+        public async Task<PedidoDTO> ExecuteAsync(int consecutivo, int id_tienda, int id_area)
         {
-            return await _pedidoRepository.GetById(consecutivo, id_tienda);
+            return await _pedidoRepository.GetSurtirById(consecutivo, id_tienda, id_area);
         }
     }
 }
