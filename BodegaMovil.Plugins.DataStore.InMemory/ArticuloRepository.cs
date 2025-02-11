@@ -43,7 +43,7 @@ namespace BodegaMovil.Plugins.DataStore.InMemory
 
         public async Task<List<Articulo>> GetArticulos(string filtro)
         {
-            return list.Where(x => x.SKU.StartsWith(filtro) || x.Descripcion.StartsWith(filtro)).ToList();
+            return list;// list.Where(x => x.Descripcion.StartsWith(filtro)).ToList();
         }
 
         private void LoadArticulos()
@@ -202,7 +202,7 @@ namespace BodegaMovil.Plugins.DataStore.InMemory
                     SKU = "10100",
                     ID_Tienda = 1,
                     Ubicacion = "A1",
-                    ExistenciaActual=10
+                    ExistenciaActual=100
                 },
                 new Existencia()
                 {

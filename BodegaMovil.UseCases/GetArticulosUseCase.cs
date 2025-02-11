@@ -18,8 +18,8 @@ namespace BodegaMovil.UseCases
 
         public async Task<List<Articulo>> ExecuteAsync(string filter)
         {
-            var list = _repository.GetArticulos(filter);
-            return await list;
+            var list = await _repository.GetArticulos(filter);
+            return list;
         }
     }
 }
