@@ -7,4 +7,14 @@
     <InvariantGlobalization>true</InvariantGlobalization>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.66" />
+    <PackageReference Include="MySql.Data" Version="9.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BodegaMovil.CoreBusiness\BodegaMovil.CoreBusiness.csproj" />
+    <ProjectReference Include="..\BodegaMovil.UseCases\BodegaMovil.UseCases.csproj" />
+  </ItemGroup>
+
 </Project>

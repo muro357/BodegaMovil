@@ -16,15 +16,15 @@ namespace BodegaMovil.UseCases.DTO
         public TipoPedido Tipo { get; set; } //Puede ser Sugerido o Especial
         public string DescripcionTienda { get; set; }
         public string DescripcionArea { get; set; }
-        public string EntregarA { get; set; }
-        public string DomicilioEntregar { get; set; }
-        public string Usuario { get; set; }
+        //public string EntregarA { get; set; }
+        //public string DomicilioEntregar { get; set; }
+        //public string Usuario { get; set; }
         public string Folio { get; set; }
-        public DateTime FechaGenerado { get; set; }
-        public DateTime? FechaInicialFiltro { get; set; }
-        public DateTime? FechaFinalFiltro { get; set; }
-        public float PorcentajeStockMaximo { get; set; }
-        public bool SoloVentas { get; set; }
+        //public DateTime FechaGenerado { get; set; }
+        //public DateTime? FechaInicialFiltro { get; set; }
+        //public DateTime? FechaFinalFiltro { get; set; }
+        //public float PorcentajeStockMaximo { get; set; }
+        //public bool SoloVentas { get; set; }
         public DateTime? FechaSolicitado { get; set; }
         public DateTime? FechaTransferido { get; set; }
         public string SurtidoPor { get; set; }
@@ -32,10 +32,10 @@ namespace BodegaMovil.UseCases.DTO
         public string ObservacionesAduana { get; set; }
         public string Placas { get; set; }
         public string NumeroDeCandado { get; set; }
-        public string Chofer { get; set; }
+        //public string Chofer { get; set; }
         public EstadoDePedido Estado { get; set; }//(Generado, Solicitado, Surtido, Checado, Embarcado, Finalizado) Generado = Se esta llenando en tienda el pedido, Solicitado = ya se envio pedido a bodega, Surtido = ya se finalizo el surtido, Checado = ya se checo todo, Finalizado = ya se hizo el movimiento de almacen
-        public string RFC_Cliente { get; set; }
-        public EnviarPedidoA EnviarPedidoA { get; set; }
+        //public string RFC_Cliente { get; set; }
+        //public EnviarPedidoA EnviarPedidoA { get; set; }
 
         public string CanceladoPor { get; set; }
 

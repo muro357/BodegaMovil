@@ -19,8 +19,8 @@ namespace BodegaMovil.UseCases.DTO
         public string UbicacionCedis { get; set; }
         public string SurtidoPor { get; set; }
         public string ChecadoPor { get; set; }
-        public int Multiplo { get; set; }
-        public string SugerenciaSurtido { get; set; }
+        //public int Multiplo { get; set; }
+        //public string SugerenciaSurtido { get; set; }
         public float? Diferencia { get => (this.CantidadPedida - this.CantidadSurtida); }
 
         public int ID_Tienda { get; set; }
@@ -28,21 +28,21 @@ namespace BodegaMovil.UseCases.DTO
         public TipoPedido Tipo { get; set; }
         public string Folio { get; set; }
         public string SKU { get; set; }
-        public float CantidadVendida { get; set; }
-        public float PedidoEspecial { get; set; }
-        public float StockMinimo { get; set; }
-        public float StockMaximo { get; set; }
-        public float ExistenciaFiltro { get; set; }
+        //public float CantidadVendida { get; set; }
+        //public float PedidoEspecial { get; set; }
+        //public float StockMinimo { get; set; }
+        //public float StockMaximo { get; set; }
+        //public float ExistenciaFiltro { get; set; }
         public FormaDeCalculo FormaDeCalculo { get; set; }
-        public bool Modificado { get; set; }
-        public string Observaciones { get; set; }
+        //public bool Modificado { get; set; }
+        //public string Observaciones { get; set; }
         public float CantidadPedida { get; set; }
         public float? CantidadSurtida { get; set; }
         public int Contenedor { get; set; }
         public bool Checado { get; set; }
         public DateTime? FechaSurtido { get; set; }
         public DateTime? FechaChecado { get; set; }
-        public string Referencia { get; set; }//Folio de Ticket o Factura
+        //public string Referencia { get; set; }//Folio de Ticket o Factura
         public float PedidoInferido { get; set; }
     }
 }

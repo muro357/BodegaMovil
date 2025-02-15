@@ -14,7 +14,6 @@ namespace BodegaMovil.UseCases.DTO
         public int ID_Perfil { get; set; }
         public string password { get; set; }
         public string Nombre { get; set; }
-        public int ID_Empleado { get; set; }
         #endregion
 
         #region Permisos
@@ -25,7 +24,7 @@ namespace BodegaMovil.UseCases.DTO
         #endregion
 
         #region Ambitos de Influencia
-        public List<Tienda> ListaTiendasAsignadas { get; set; }
+        public List<Usuarios_Tiendas> ListaTiendasAsignadas { get; set; }
         public List<Usuarios_Areas> ListaAreasAsignadas { get; set; }
         #endregion
     }
