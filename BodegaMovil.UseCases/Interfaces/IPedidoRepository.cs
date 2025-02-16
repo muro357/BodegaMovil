@@ -13,11 +13,11 @@ namespace BodegaMovil.UseCases.Interfaces
     {
         public Task<PedidoDTO> GetSurtirById(int id, int id_tienda, int id_area);
 
-        public Task<List<PedidoDTO>> GetPedidosSurtir(IEnumerable<int> ID_Tienda, IEnumerable<int> ID_Area);
+        public Task<List<ShowPedidoDTO>> GetPedidosSurtir(IEnumerable<int> ID_Tienda, IEnumerable<int> ID_Area);
 
         public Task<bool> Surtir(PedidoDetalle linea);
 
-        public Task<bool> AgregarArticulo(Pedido pedido, Articulo art, float? cantidad, string formaCalc);
+        public Task<bool> AgregarArticulo(PedidoDetalle linea);
 
         public Task ContemplarExistencia(IEnumerable<PedidoDetalle> pedidoDetalles);
 

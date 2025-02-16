@@ -24,10 +24,10 @@ namespace BodegaMovil.Plugins.DataStore.InMemory
             LoadPedidosDetalles();
             LoadExistencias();
         }
-        public async Task<bool> AgregarArticulo(Pedido pedido, Articulo art, float? cantidad, string formaCalc)
+        public async Task<bool> AgregarArticulo(PedidoDetalle linea)
         {
-            var p = pedidos.FirstOrDefault(x => x.ID_Tienda == pedido.ID_Tienda && x.Consecutivo == pedido.Consecutivo);
-            p.AddDetalle(art,cantidad,formaCalc);
+            //var p = pedidos.FirstOrDefault(x => x.ID_Tienda == pedido.ID_Tienda && x.Consecutivo == pedido.Consecutivo);
+            //p.AddDetalle(art,cantidad,formaCalc);
             return true;
         }
 
@@ -87,7 +87,7 @@ namespace BodegaMovil.Plugins.DataStore.InMemory
             return pedido;
         }
 
-        public async Task<List<PedidoDTO>> GetPedidosSurtir(IEnumerable<int> ID_Tienda, IEnumerable<int> ID_Area)
+        public async Task<List<ShowPedidoDTO>> GetPedidosSurtir(IEnumerable<int> ID_Tienda, IEnumerable<int> ID_Area)
         {
             var lista = (from p in pedidos join pd in pedidosDetalles 
                              on new { p.Consecutivo, p.ID_Tienda } equals new { pd.Consecutivo,pd.ID_Tienda }
@@ -130,7 +130,7 @@ namespace BodegaMovil.Plugins.DataStore.InMemory
                                     g.Key.DescripcionArea,
                                     FechaSolicitado = g.Select(p => p.FechaSolicitado).ToList()
                                 });
-            return (List<PedidoDTO>)listaAgrupada;
+            return null;
 
         }
 

@@ -5,22 +5,28 @@ using System.Text;
 using System.Threading.Tasks;
 using BodegaMovil.CoreBusiness;
 using BodegaMovil.UseCases;
-using BodegaMovil.Plugins.DataStore.InMemory;
+using BodegaMovil.Plugins.DataStore.WebApi;
 using BodegaMovil.UseCases.Interfaces;
 
-namespace BodegaMovil.Tests
+namespace BodegaMovil.Tests.Repositorios.WebAPI
 {
-    public  class AreaTest
+    public class TiendaTest
     {
-        [Fact]
-        public void DebeObtenerAreas()
+        public TiendaTest()
         {
-            IAreaRepository rep = new AreaRepository();
-            var uc = new GetAreasHabilitadasUseCase(rep);
+
+        }
+
+        [Fact]
+        public void DebeObtenerTiendas()
+        {
+            ITiendaRepository rep = new TiendaRepository();
+            var uc = new GetTiendasHabilitadasUseCase(rep);
             var x = uc.ExecuteAsync();
 
             Assert.NotNull(x);
             Assert.True(x.Result.Count() >= 2);
         }
+
     }
 }

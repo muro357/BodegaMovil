@@ -41,7 +41,7 @@ namespace BodegaMovil.Plugins.DataStore.InMemory
 
         }
 
-        public async Task<List<Articulo>> GetArticulos(string filtro)
+        public async Task<List<Articulo>> GetArticulos(string filtro, int id_tienda)
         {
             return list;// list.Where(x => x.Descripcion.StartsWith(filtro)).ToList();
         }

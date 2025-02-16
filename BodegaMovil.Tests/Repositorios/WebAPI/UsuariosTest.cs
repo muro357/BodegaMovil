@@ -7,18 +7,18 @@ using BodegaMovil.CoreBusiness;
 using BodegaMovil.UseCases;
 using BodegaMovil.UseCases.Interfaces;
 using BodegaMovil.UseCases.DTO;
-using BodegaMovil.Plugins.DataStore.InMemory;
+using BodegaMovil.Plugins.DataStore.WebApi;
 using BodegaMovil.UseCases.Interfaces.Services;
 using BodegaMovil.Services.Maps.AutoMapper;
-;
 
-namespace BodegaMovil.Tests
+
+namespace BodegaMovil.Tests.Repositorios.WebAPI
 {
     public class UsuariosTest
     {
         public UsuariosTest()
         {
-            
+
         }
 
         [Fact]
@@ -27,12 +27,12 @@ namespace BodegaMovil.Tests
             IUsuarioRepository rep = new UsuarioRepository();
             IMapa mapa = new AutoMapperConfig();
 
-            LoguearseUseCase uc = new LoguearseUseCase(rep,mapa);
+            LoguearseUseCase uc = new LoguearseUseCase(rep, mapa);
 
             var user = new AccesoDTO
             {
                 usuario = "",
-                password=""
+                password = ""
             };
 
             var x = uc.ExecuteAsync(user);

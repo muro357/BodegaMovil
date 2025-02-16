@@ -1,4 +1,4 @@
-﻿using BodegaMovil.Plugins.DataStore.InMemory;
+﻿using BodegaMovil.Plugins.DataStore.WebApi;
 using BodegaMovil.UseCases.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BodegaMovil.Tests
+namespace BodegaMovil.Tests.Repositorios.WebAPI
 {
     public class PedidosTest
     {

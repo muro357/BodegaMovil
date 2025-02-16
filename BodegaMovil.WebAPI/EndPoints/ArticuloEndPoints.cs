@@ -18,7 +18,7 @@ namespace BodegaMovil.WebAPI.EndPoints
                 try
                 {
                     var query = @"SELECT a.*, e.* FROM Articulos a JOIN Existencias e ON a.SKU = e.SKU
-                    WHERE a.SKU = @sku AND e.ID_Tienda = @ID_Tienda";
+                    WHERE (a.SKU = @sku OR a.CodigoDeBarra = @SKU) AND e.ID_Tienda = @ID_Tienda";
                     
                     var art = db.QueryFirst<ArticuloDTO>(query, new { ID_Tienda = id, SKU = sku });
 
@@ -30,7 +30,30 @@ namespace BodegaMovil.WebAPI.EndPoints
                 }
             });
 
-            
+            group.MapGet("/", async ([FromQuery] string? s, [FromQuery] string? id, MySqlConnection db) =>
+            {
+                List<ArticuloDTO> lista;
+
+                if (!string.IsNullOrWhiteSpace(s))
+                {
+                    
+                    var query = @"SELECT 
+                        a.*, e.* 
+                        FROM Articulos a JOIN Existencias e 
+                        ON a.SKU = e.SKU
+                        WHERE e.ID_Tienda = @ID_Tienda AND Descripcion LIKE CONCAT('%',@Descripcion,'%')";
+
+                    lista = db.Query<ArticuloDTO>(query, 
+                        new { Descripcion = s, ID_Tienda = id}).ToList();
+
+                    return Results.Ok(lista);
+                }
+                else
+                    lista = new List<ArticuloDTO>();
+
+                return Results.Ok(lista);
+            });
+
         }
     }
 }

@@ -24,8 +24,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BodegaMovil.CoreBusiness\BodegaMovil.CoreBusiness.csproj" />
-    <ProjectReference Include="..\BodegaMovil.Plugins.DataStore.InMemory\BodegaMovil.Plugins.DataStore.InMemory.csproj" />
     <ProjectReference Include="..\BodegaMovil.UseCases\BodegaMovil.UseCases.csproj" />
+    <ProjectReference Include="..\Plugins\BodegaMovil.Plugins.DataStore.WebApi\BodegaMovil.Plugins.DataStore.WebApi.csproj" />
+    <ProjectReference Include="..\Services\BodegaMovil.Services.Maps.AutoMapper\BodegaMovil.Services.Maps.AutoMapper.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="EndPoints\" />
   </ItemGroup>
 
 </Project>

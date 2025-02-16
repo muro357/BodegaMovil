@@ -29,8 +29,8 @@ namespace BodegaMovil.UseCases
             if (pedidoDTO.ID_AreaSurtir != art.ID_Area)
                 throw new InvalidOperationException("El articulo no es de la misma area del pedido");
 
-            pedido.AddDetalle(art, cantidad, formaDeCalculo.ToString());
-            var ok = await _pedidoRepository.AgregarArticulo(pedido, art, cantidad, formaDeCalculo.ToString());
+            var item = pedido.AddDetalle(art, cantidad, formaDeCalculo.ToString());
+            var ok = await _pedidoRepository.AgregarArticulo(item);
 
             if (ok)
             {

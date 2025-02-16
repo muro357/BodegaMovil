@@ -18,7 +18,7 @@ namespace BodegaMovil.UseCases
             _pedidoRepository = pedidoRepository;
         }
 
-        public async Task<List<PedidoDTO>> ExecuteAsync(IEnumerable<int> lstTiendas, IEnumerable<int> lstAreas)
+        public async Task<List<ShowPedidoDTO>> ExecuteAsync(IEnumerable<int> lstTiendas, IEnumerable<int> lstAreas)
         {
             var res = await _pedidoRepository.GetPedidosSurtir(lstTiendas, lstAreas);
             return res;

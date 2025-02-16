@@ -12,7 +12,7 @@ namespace BodegaMovil.WebAPI.EndPoints
         {
 
             var group = app.MapGroup("/api/getpedidos"); // Prefijo común
-
+            //Obtiene una lista de pedidos
             group.MapPost("/surtir", async (GetPedidoDTO get, MySqlConnection db) =>
             {
                 try
@@ -30,7 +30,7 @@ namespace BodegaMovil.WebAPI.EndPoints
                 }
             });
 
-
+            //Obtiene un pedido
             group.MapGet("/{tienda}/{folio}", async (string folio, string tienda, MySqlConnection db) =>
             {
                 try

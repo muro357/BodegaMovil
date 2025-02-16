@@ -5,29 +5,29 @@ using System.Text;
 using System.Threading.Tasks;
 using BodegaMovil.CoreBusiness;
 using BodegaMovil.UseCases;
-using BodegaMovil.Plugins.DataStore.InMemory;
+using BodegaMovil.Plugins.DataStore.WebApi;
 using BodegaMovil.UseCases.Interfaces;
 
-namespace BodegaMovil.Tests
+namespace BodegaMovil.Tests.Repositorios.WebAPI
 {
     public class ArticulosTest
     {
-        
+
         IArticuloRepository rep;
         public ArticulosTest()
         {
             IArticuloRepository rep = new ArticuloRepository();
-            
+
         }
 
         [Fact]
         public void DebeObtenerArticulo()
         {
             GetArticuloUseCase uc = new GetArticuloUseCase(rep);
-            var x = uc.ExecuteAsync("10100",1);
+            var x = uc.ExecuteAsync("10100", 1);
 
             Assert.NotNull(x);
-            Assert.Equal("ACCESORIOS P/COMPRESOR 14 PZAS AMERICAN TOOL",x.Result.Descripcion);
+            Assert.Equal("ACCESORIOS P/COMPRESOR 14 PZAS AMERICAN TOOL", x.Result.Descripcion);
             Assert.Equal(100, x.Result.ExistenciaCedis);
         }
 
@@ -35,11 +35,11 @@ namespace BodegaMovil.Tests
         public void DebeObtenerArticulosFiltrados()
         {
             GetArticulosUseCase uc = new GetArticulosUseCase(rep);
-            var x = uc.ExecuteAsync("ACCESORIOS");
+            var x = uc.ExecuteAsync("ACCESORIOS", 90);
 
             Assert.NotNull(x);
             Assert.True(x.Result.Count() >= 2);
-            
+
         }
     }
 }

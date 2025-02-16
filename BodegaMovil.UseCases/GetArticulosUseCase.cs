@@ -16,9 +16,9 @@ namespace BodegaMovil.UseCases
             _repository = repository;
         }
 
-        public async Task<List<Articulo>> ExecuteAsync(string filter)
+        public async Task<List<Articulo>> ExecuteAsync(string filter, int id_tienda)
         {
-            var list = await _repository.GetArticulos(filter);
+            var list = await _repository.GetArticulos(filter, id_tienda);
             return list;
         }
     }

@@ -41,7 +41,7 @@ namespace BodegaMovil.CoreBusiness
             this.Detalles = new List<PedidoDetalle>();
         }
 
-        public void AddDetalle(Articulo art, float? cantidad, string formaCalc)
+        public PedidoDetalle AddDetalle(Articulo art, float? cantidad, string formaCalc)
         {
             var item = Detalles.FirstOrDefault(x => x.SKU == art.SKU);
 
@@ -58,7 +58,7 @@ namespace BodegaMovil.CoreBusiness
             var newItem = new PedidoDetalle(art, cantidad, formaCalc, this.Consecutivo,this.ID_Tienda,this.Folio);
 
             Detalles.Add(newItem);
-               
+            return newItem;
             
         }
     }
