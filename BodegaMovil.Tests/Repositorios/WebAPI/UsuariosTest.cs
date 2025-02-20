@@ -37,7 +37,7 @@ namespace BodegaMovil.Tests.Repositorios.WebAPI
 
             var x = uc.ExecuteAsync(user);
 
-            Assert.NotNull(x);
+            Assert.NotNull(x.Result);
             //Assert.True(x);
         }
     }

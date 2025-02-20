@@ -34,15 +34,16 @@ namespace BodegaMovil.UseCases
 
             if (ok)
             {
-                var pd = new PedidoDetalleDTO
-                {
-                    ID_Tienda = pedido.ID_Tienda,
-                    Consecutivo = pedido.Consecutivo,
-                    ID_Area = pedidoDTO.ID_AreaSurtir,
-                    SKU = art.SKU,
-                    Descripcion = art.Descripcion,
 
-                };
+                var pd = _mapa.GetEntity<PedidoDetalle, PedidoDetalleDTO>(item);
+
+                pd.ID_Tienda = pedido.ID_Tienda;
+                pd.Consecutivo = pedido.Consecutivo;
+                pd.Folio = pedido.Folio;
+                pd.CodigoDeBarra = art.CodigoDeBarra;
+                pd.DescripcionArea = "";
+                pd.Descripcion = art.Descripcion;
+                
                 return pd;
             }
             else

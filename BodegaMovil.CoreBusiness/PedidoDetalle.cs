@@ -36,7 +36,14 @@ namespace BodegaMovil.CoreBusiness
             
         }
 
-        public PedidoDetalle(Articulo art, float? cantidad, string formaCalc, int consec, int id_tienda, string folio)
+        public PedidoDetalle(
+            Articulo art, 
+            float? cantidad, 
+            string formaCalc, 
+            int consec, 
+            int id_tienda, 
+            string folio,
+            string tipo)
         {
             this.Consecutivo = consec;
             this.ID_Area = art.ID_Area;
@@ -51,6 +58,7 @@ namespace BodegaMovil.CoreBusiness
             this.Contenedor = 0;//int.Parse(txtCaja.Text),
             this.CantidadPedida = 0;
             this.CantidadSurtida = cantidad;
+            this.Tipo = tipo;
         }
     }
 

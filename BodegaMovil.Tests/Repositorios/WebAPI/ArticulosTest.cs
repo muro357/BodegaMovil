@@ -16,7 +16,7 @@ namespace BodegaMovil.Tests.Repositorios.WebAPI
         IArticuloRepository rep;
         public ArticulosTest()
         {
-            IArticuloRepository rep = new ArticuloRepository();
+            rep = new ArticuloRepository();
 
         }
 
@@ -24,11 +24,15 @@ namespace BodegaMovil.Tests.Repositorios.WebAPI
         public void DebeObtenerArticulo()
         {
             GetArticuloUseCase uc = new GetArticuloUseCase(rep);
-            var x = uc.ExecuteAsync("10100", 1);
+            var x = uc.ExecuteAsync("#13044", 90);
+
+            //var d = rep.GetArticulo("#13044", 90);
 
             Assert.NotNull(x);
-            Assert.Equal("ACCESORIOS P/COMPRESOR 14 PZAS AMERICAN TOOL", x.Result.Descripcion);
-            Assert.Equal(100, x.Result.ExistenciaCedis);
+            Assert.NotNull(x.Result);
+            //Assert.NotNull(d.Result);
+            Assert.Equal("689958130443", x.Result.CodigoDeBarra);
+            //Assert.Equal("689958130443", d.Result.CodigoDeBarra);
         }
 
         [Fact]

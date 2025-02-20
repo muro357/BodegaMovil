@@ -55,7 +55,7 @@ namespace BodegaMovil.CoreBusiness
                 throw new InvalidOperationException("En un pedido sugerido solo puede agregar articulos de la misma area");
             }
 
-            var newItem = new PedidoDetalle(art, cantidad, formaCalc, this.Consecutivo,this.ID_Tienda,this.Folio);
+            var newItem = new PedidoDetalle(art, cantidad, formaCalc, this.Consecutivo,this.ID_Tienda,this.Folio, this.Tipo);
 
             Detalles.Add(newItem);
             return newItem;

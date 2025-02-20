@@ -21,10 +21,10 @@ namespace BodegaMovil.UseCases
             _mapa = map;
         }   
 
-        public async Task Depurar(PedidoDTO pedidoDTO)
+        public async Task<bool> ExecuteAsync(PedidoDTO pedidoDTO)
         {
-            
             //var pedido = _map.GetEntity<PedidoDTO,Pedido>(pedidoDTO);
+            bool ok = false;
 
             List<PedidoDetalle> list = new List<PedidoDetalle>();
             foreach (var current in pedidoDTO.ArticulosPorSurtir)
@@ -32,12 +32,14 @@ namespace BodegaMovil.UseCases
                 if (current.Elegido)
                 {
                    var linea = _mapa.GetEntity<PedidoDetalleDTO,PedidoDetalle>(current);
+                    linea.CantidadSurtida = 0;
+                    linea.Contenedor = 0;
                     list.Add(linea);
                 }
             }
             if (list.Count > 0)
             {
-                await _pedidoRepository.Depurar(list);
+                ok = await _pedidoRepository.SurtirVarios(pedidoDTO.Folio, list);
             }
 
             foreach(var item in list)
@@ -45,7 +47,7 @@ namespace BodegaMovil.UseCases
                 item.CantidadSurtida = new float?(0f);
             }
 
-            
+            return ok;
         }
     }
 }

@@ -30,8 +30,8 @@ namespace BodegaMovil.Plugins.DataStore.WebApi
             string json = JsonSerializer.Serialize(linea, _serializerOptions);
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            Uri uri = new Uri($"{Constants.url}/pedidos/addnew");
-            //PedidoDTO p = null;
+            Uri uri = new Uri($"{Constants.url}/pedido/addnew");
+            
             var response = await _httpClient.PostAsync(uri, content);
 
             if (response.IsSuccessStatusCode)
@@ -42,36 +42,18 @@ namespace BodegaMovil.Plugins.DataStore.WebApi
             return false;
         }
 
-        public async Task ContemplarExistencia(IEnumerable<PedidoDetalle> pedidoDetalles)
-        {
-            string json = JsonSerializer.Serialize(pedidoDetalles, _serializerOptions);
-            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            Uri uri = new Uri($"{Constants.url}/pedidos/setcero");
-            await _httpClient.PostAsync(uri, content);
-        }
-
-        public async Task Depurar(IEnumerable<PedidoDetalle> pedidoDetalles)
-        {
-            string json = JsonSerializer.Serialize(pedidoDetalles, _serializerOptions);
-            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            Uri uri = new Uri($"{Constants.url}/pedidos/setcero");
-            await _httpClient.PostAsync(uri, content);
-        }
-
         public async Task<List<ShowPedidoDTO>> GetPedidosSurtir(IEnumerable<int> ID_Tienda, IEnumerable<int> ID_Area)
         {
             var solicitud = new GetPedidoDTO()
             {
-                ListaAreas = string.Join(",", ID_Tienda),
-                ListaTiendas = string.Join(",", ID_Area)
+                ListaAreas = string.Join(",", ID_Area),
+                ListaTiendas = string.Join(",", ID_Tienda)
             };
 
             string json = JsonSerializer.Serialize(solicitud, _serializerOptions);
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            Uri uri = new Uri($"{Constants.url}/getpedidos");
+            Uri uri = new Uri($"{Constants.url}/getpedidos/surtir");
             List<ShowPedidoDTO> lista = null;
             var response = await _httpClient.PostAsync(uri, content);
 
@@ -84,9 +66,9 @@ namespace BodegaMovil.Plugins.DataStore.WebApi
             return lista;
         }
 
-        public async Task<PedidoDTO> GetSurtirById(int id, int id_tienda, int id_area)
+        public async Task<PedidoDTO> GetSurtirById(int id_tienda, string folio)
         {
-            Uri uri = new Uri($"{Constants.url}/getpedidos/{id}");
+            Uri uri = new Uri($"{Constants.url}/getpedidos/{id_tienda}/{folio}");
             PedidoDTO p = null;
             var response = await _httpClient.GetAsync(uri);
 
@@ -104,10 +86,27 @@ namespace BodegaMovil.Plugins.DataStore.WebApi
             string json = JsonSerializer.Serialize(linea, _serializerOptions);
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            Uri uri = new Uri($"{Constants.url}/pedidos/surtir");
-            //PedidoDTO p = null;
-            var response = await _httpClient.PostAsync(uri, content);
+            Uri uri = new Uri($"{Constants.url}/pedido/surtir");
+            
+            var response = await _httpClient.PutAsync(uri, content);
 
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> SurtirVarios(string folio, List<PedidoDetalle> lineas)
+        {
+            string json = JsonSerializer.Serialize(lineas, _serializerOptions);
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            Uri uri = new Uri($"{Constants.url}/pedido/surtir/{folio}");
+
+            var response = await _httpClient.PutAsync(uri, content);
+           
             if (response.IsSuccessStatusCode)
             {
                 return true;

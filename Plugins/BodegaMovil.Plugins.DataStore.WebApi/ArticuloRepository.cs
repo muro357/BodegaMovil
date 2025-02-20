@@ -20,23 +20,33 @@ namespace BodegaMovil.Plugins.DataStore.WebApi
             _httpClient = new HttpClient();
             _serializerOptions = new JsonSerializerOptions()
             {
+                PropertyNameCaseInsensitive = true,
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                 WriteIndented = true,
             };
         }
         public async Task<ArticuloDTO> GetArticulo(string sku, int id_tienda)
         {
+            var param = new GetArticuloDTO()
+            {
+                SKU = sku,
+                ID_Tienda = id_tienda
+            };
+            string json = JsonSerializer.Serialize(param, _serializerOptions);
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            Uri uri = new Uri($"{Constants.url}/articulos/{id_tienda}/{sku}");
-            ArticuloDTO art = null;
-            var response = await _httpClient.GetAsync(uri);
+            ArticuloDTO? art = null;
+           
+            Uri uri = new Uri($"{Constants.url}/articulos");
+
+            var response = await _httpClient.PostAsync(uri,content);
 
             if (response.IsSuccessStatusCode)
             {
-                string content = await response.Content.ReadAsStringAsync();
-                art = JsonSerializer.Deserialize<ArticuloDTO>(content, _serializerOptions);
+                string respuesta = await response.Content.ReadAsStringAsync();
+                art = JsonSerializer.Deserialize<ArticuloDTO>(respuesta, _serializerOptions);
             }
-
+            
             return art;
         }
 

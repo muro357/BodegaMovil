@@ -33,7 +33,9 @@ namespace BodegaMovil.Services.Maps.AutoMapper
                 cfg.AddProfile<UsuarioProfile>();
                 cfg.AddProfile<AccesoProfile>();
                 cfg.AddProfile<PedidoProfile>();
-            });
+                cfg.AddProfile<PedidoDetalleProfile>();
+                cfg.AddProfile<ArticuloProfile>();
+             });
 
             _mapper = config.CreateMapper();
         }

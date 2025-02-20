@@ -11,7 +11,7 @@ namespace BodegaMovil.UseCases.DTO
     {
        
 
-        public string TipoPedido { get; set; }
+        //public string TipoPedido { get; set; }
 
         public string ListaTiendas
         {

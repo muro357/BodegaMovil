@@ -21,7 +21,7 @@ namespace BodegaMovil.UseCases
             _mapa = mapa;
         }
 
-        public async Task Surtir(PedidoDTO pedidoDTO, PedidoDetalleDTO pedidoDetalleDTO)
+        public async Task<bool> ExecuteAsync(PedidoDTO pedidoDTO, PedidoDetalleDTO pedidoDetalleDTO)
         {
             var pedidoDetalle = _mapa.GetEntity<PedidoDetalleDTO, PedidoDetalle>(pedidoDetalleDTO);
             var ok = await _pedidoRepository.Surtir(pedidoDetalle);
@@ -30,6 +30,7 @@ namespace BodegaMovil.UseCases
                 var pd = pedidoDTO.PedidoDetalle.Where(x => x.SKU == pedidoDetalleDTO.SKU).FirstOrDefault();
                 pd.CantidadSurtida = pedidoDetalleDTO.CantidadSurtida;
                 pd.Contenedor = pedidoDetalleDTO.Contenedor;
+                return ok;
             }
             else
                 throw new InvalidOperationException("No se pudo actualizar");

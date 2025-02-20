@@ -13,14 +13,16 @@ namespace BodegaMovil.WebAPI.EndPoints
 
             var group = app.MapGroup("/api/articulos"); // Prefijo común
 
-            group.MapGet("/{id}/{sku}", async (int id, string sku, MySqlConnection db) =>
+            group.MapPost("/", async (GetArticuloDTO search, MySqlConnection db) =>
             {
                 try
                 {
-                    var query = @"SELECT a.*, e.* FROM Articulos a JOIN Existencias e ON a.SKU = e.SKU
-                    WHERE (a.SKU = @sku OR a.CodigoDeBarra = @SKU) AND e.ID_Tienda = @ID_Tienda";
+                    var query = @"SELECT 
+                                    *, ExistenciaActual AS ExistenciaCedis, Ubicacion AS UbicacionCedis
+                                FROM vexistencias 
+                    WHERE (SKU = @sku OR CodigoDeBarra = @SKU) AND ID_Tienda = @ID_Tienda";
                     
-                    var art = db.QueryFirst<ArticuloDTO>(query, new { ID_Tienda = id, SKU = sku });
+                    var art = db.QueryFirst<ArticuloDTO>(query, search);
 
                     return Results.Ok(art);
                 }

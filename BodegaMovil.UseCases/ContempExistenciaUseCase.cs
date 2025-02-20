@@ -10,20 +10,21 @@ using System.Threading.Tasks;
 
 namespace BodegaMovil.UseCases
 {
-    public class ContempExistenciaUseCase
+    public class ContemplarExistenciaUseCase
     {
         private readonly IPedidoRepository _pedidoRepository;
         private readonly IMapa _mapa;
 
-        public ContempExistenciaUseCase(IPedidoRepository pedidoRepository, IMapa mapa)
+        public ContemplarExistenciaUseCase(IPedidoRepository pedidoRepository, IMapa mapa)
         {
             _pedidoRepository = pedidoRepository;
             _mapa = mapa;
         }
 
-        public async Task ExecuteAsync(PedidoDTO pedidoDTO)
+        public async Task<bool> ExecuteAsync(PedidoDTO pedidoDTO)
         {
             //var pedido = _mapa.GetEntity<PedidoDTO, Pedido>(pedidoDTO);
+            bool ok = false;
 
             List<PedidoDetalle> list = new List<PedidoDetalle>();
             foreach (var current in pedidoDTO.PedidoDetalle)
@@ -31,12 +32,14 @@ namespace BodegaMovil.UseCases
                 if (current.ExistenciaCedis <= 0f)
                 {
                     var item = _mapa.GetEntity<PedidoDetalleDTO, PedidoDetalle>(current);
+                    item.CantidadSurtida = 0;
+                    item.Contenedor = 0;
                     list.Add(item);
                 }
             }
             if (list.Count > 0)
             {
-                await _pedidoRepository.ContemplarExistencia(list);
+                ok = await _pedidoRepository.SurtirVarios(pedidoDTO.Folio,list);
             }
 
             foreach (var item in list)
@@ -44,6 +47,7 @@ namespace BodegaMovil.UseCases
                 item.CantidadSurtida = new float?(0f);
             }
 
+            return ok;
             //Task.CompletedTask;
         }
     }

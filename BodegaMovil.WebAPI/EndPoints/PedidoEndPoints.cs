@@ -17,10 +17,11 @@ namespace BodegaMovil.WebAPI.EndPoints
             {
                 try
                 {
-                    var query = @"INSERT INTO pedidos_detalle (Consecutivo, ID_Tienda, ID_Area, Tipo, Folio, SKU, FormaDeCalculo, CantidadPedida, CantidadSurtida, Contenedor, FechaSurtido) VALUES(@Consecutivo, @ID_Tienda, @ID_Area, @Tipo, @Folio, @SKU, @FormaDeCalculo, @CantidadPedida, @CantidadSurtida, @Contenedor, now())";
+                    var query = @"INSERT INTO pedidos_detalle (Consecutivo, ID_Tienda, ID_Area, Tipo, Folio, SKU, FormaDeCalculo, CantidadPedida, CantidadSurtida, Contenedor, FechaSurtido) 
+                        VALUES(@Consecutivo, @ID_Tienda, @ID_Area, @Tipo, @Folio, @SKU, @FormaDeCalculo, @CantidadPedida, @CantidadSurtida, @Contenedor, now())";
 
-                    var entidad = db.Execute(query, p);
-                    return Results.Ok(entidad);
+                    var res = await db.ExecuteAsync(query, p);
+                    return Results.Ok(res);
                 }
                 catch (Exception e)
                 {
@@ -34,10 +35,10 @@ namespace BodegaMovil.WebAPI.EndPoints
                 {
                     var query = @"UPDATE pedidos_detalle 
                     SET CantidadSurtida = @CantidadSurtida, Contenedor = @Contenedor, FechaSurtido = NOW() 
-                    WHERE Folio = @Folio AND SKU = @SKU"; ;
+                    WHERE Folio = @Folio AND SKU = @SKU"; 
 
-                    var entidad = db.Query<Area>(query, p);
-                    return Results.Ok(entidad);
+                    var res = await db.ExecuteAsync(query, p);
+                    return Results.Ok(res);
                 }
                 catch (Exception e)
                 {
@@ -79,12 +80,12 @@ namespace BodegaMovil.WebAPI.EndPoints
                         }
 
                         // Ejecutar la actualización dentro de la transacción
-                        await db.ExecuteAsync(updateQuery, parameters, transaction);
+                        var res = await db.ExecuteAsync(updateQuery, parameters, transaction);
 
                         // Confirmar la transacción si todo está bien
                         await transaction.CommitAsync();
 
-                        return Results.Ok(updateQuery);
+                        return Results.Ok(res);
                     }
                     catch (Exception ex)
                     {
@@ -123,8 +124,8 @@ namespace BodegaMovil.WebAPI.EndPoints
                 {
                     var query = @"UPDATE pedidos SET Estado = @Estado WHERE Folio = @Folio";
 
-                    var entidad = db.Execute(query, new { Folio = folio, Estado = estado });
-                    return Results.Ok(entidad);
+                    var res = await db.ExecuteAsync(query, new { Folio = folio, Estado = estado });
+                    return Results.Ok(res);
                 }
                 catch (Exception e)
                 {

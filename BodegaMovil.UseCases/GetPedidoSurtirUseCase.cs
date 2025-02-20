@@ -18,9 +18,9 @@ namespace BodegaMovil.UseCases
             _pedidoRepository = pedidoRepository;
         }
 
-        public async Task<PedidoDTO> ExecuteAsync(int consecutivo, int id_tienda, int id_area)
+        public async Task<PedidoDTO> ExecuteAsync(int id_tienda, string folio)
         {
-            return await _pedidoRepository.GetSurtirById(consecutivo, id_tienda, id_area);
+            return await _pedidoRepository.GetSurtirById(id_tienda, folio);
         }
     }
 }

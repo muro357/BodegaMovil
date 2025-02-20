@@ -28,5 +28,16 @@ namespace BodegaMovil.Tests.Repositorios.WebAPI
             Assert.True(x.Result.Count() >= 2);
         }
 
+        [Fact]
+        public void DebeObtenerTiendaById()
+        {
+            ITiendaRepository rep = new TiendaRepository();
+
+            var x = rep.GetById(1);
+
+            Assert.NotNull(x);
+            Assert.Equal("Tacayucan", x.Result.Descripcion);
+        }
+
     }
 }

@@ -17,12 +17,14 @@ namespace BodegaMovil.WebAPI.EndPoints
             {
                 try
                 {
-                    var query = @"SELECT Consecutivo, Folio, ID_Area, ID_Tienda, Tipo, Estado, FechaSolicitado, DescripcionTienda, DescripcionArea FROM vsurtido 
+                    List<ShowPedidoDTO> lista;
+
+                    var query = @$"SELECT Consecutivo, Folio, ID_Area, ID_Tienda, Tipo, Estado, FechaSolicitado, DescripcionTienda, DescripcionArea FROM vsurtido 
                       WHERE Estado = 'Solicitado' AND ID_Area IN (@ListaAreas) AND ID_Tienda IN (@ListaTiendas) AND CantidadSurtida is null
                       group by Consecutivo, Folio, ID_Area, ID_Tienda, Tipo, Estado, FechaSolicitado, DescripcionTienda, DescripcionArea";
 
-                    var entidad = db.Query<ShowPedidoDTO>(query, get);
-                    return Results.Ok(entidad);
+                    lista = db.Query<ShowPedidoDTO>(query, get).ToList();
+                    return Results.Ok(lista);
                 }
                 catch (Exception e)
                 {
