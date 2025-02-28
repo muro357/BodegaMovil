@@ -26,7 +26,6 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\..\BodegaMovil.CoreBusiness\BodegaMovil.CoreBusiness.csproj" />
 	  <ProjectReference Include="..\..\BodegaMovil.UseCases\BodegaMovil.UseCases.csproj" />
-	  <ProjectReference Include="..\..\BodegaMovil.WebAPI\BodegaMovil.WebAPI.csproj" />
 	</ItemGroup>
 
 </Project>

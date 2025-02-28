@@ -23,8 +23,6 @@ namespace BodegaMovil.UseCases
 
         public async Task<UsuarioDTO>ExecuteAsync(AccesoDTO login)
         {
-         
-
             var log = _map.GetEntity<AccesoDTO,Usuario>(login); 
 
             return await _usuarioRepository.Autentificarse(log);

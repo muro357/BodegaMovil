@@ -10,6 +10,7 @@ namespace BodegaMovil.CoreBusiness
     {
         public string usuario { get; set; }
         public int ID_Area { get; set; }
-        public DateTime FechaUltimaModificacion { get; set; }
+        public string DescripcionArea { get; set; }
+        //public DateTime FechaUltimaModificacion { get; set; }
     }
 }

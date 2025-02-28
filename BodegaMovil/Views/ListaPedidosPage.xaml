@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:m="clr-namespace:BodegaMovil.UseCases.DTO;assembly=BodegaMovil.UseCases"
+             xmlns:vm="clr-namespace:BodegaMovil.ViewModels"
+             x:DataType="vm:ListaPedidosViewModel"
+             x:Class="BodegaMovil.Views.ListaPedidosPage"
+             Title="Lista de Pedidos">
+    <Grid 
+    Padding="5"
+    RowDefinitions="50,*"
+    ColumnDefinitions="*">
+
+        <Grid ColumnDefinitions="*, *, Auto">
+            <Picker ItemsSource="{Binding ListaTiendas}"
+                    ItemDisplayBinding="{Binding DescripcionTienda}"
+                    SelectedItem="{Binding TiendaSeleccionada}"
+                    Title="Seleccionar Tienda"
+                    Grid.Column="0"/>
+
+            <Picker ItemsSource="{Binding ListaAreas}"
+                    ItemDisplayBinding="{Binding DescripcionArea}"
+                    SelectedItem="{Binding AreaSeleccionada}"
+                    Title="Seleccionar Área"
+                    Grid.Column="1"/>
+
+            <ImageButton 
+                    Command="{Binding ConsultarCommand}"
+                    Source="search_white.png"
+                    HeightRequest="40"
+                    WidthRequest="70"
+                    BackgroundColor="RoyalBlue"
+                    Grid.Column="2"
+                    CornerRadius="20"
+                />
+        </Grid>
+
+        <CollectionView x:Name="ListaPedidosCollection"
+                        Grid.Row="1"
+                        ItemsSource="{Binding ListaPedidos}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="m:ShowPedidoDTO">
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Surtir"
+                                           BackgroundColor="Green"
+                                           Command="{Binding Source={x:Reference ListaPedidosCollection}, Path=BindingContext.GoToListaArticulosCommand}"
+                                           CommandParameter="{Binding Folio}">
+                                    
+                                </SwipeItem>
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+
+                        <Frame Padding="10" Margin="5" BorderColor="Gray">
+                            <VerticalStackLayout>
+                                <Label Text="{Binding Folio}" FontAttributes="Bold"/>
+                                <Label Text="{Binding DescripcionTienda}"/>
+                                <Label Text="{Binding DescripcionArea}"/>
+                                <Label Text="{Binding Tipo}"/>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </SwipeView>
+                    
+                    
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </Grid>
+</ContentPage>

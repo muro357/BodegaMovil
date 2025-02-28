@@ -8,7 +8,8 @@ namespace BodegaMovil.Plugins.DataStore.WebApi
 {
     public class Constants
     {
-        public const string url = "http://localhost:5193/api";
+        //public const string url = "http://localhost:5193/api";
+        public const string url = "http://10.0.2.2:5193/api";
 
         #region Obtener Pedido
         public const string GetPedidosSurtir = "/getpedidos/surtir";

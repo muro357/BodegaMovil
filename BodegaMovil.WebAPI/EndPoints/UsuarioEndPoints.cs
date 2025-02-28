@@ -29,15 +29,18 @@ namespace BodegaMovil.WebAPI.EndPoints
                                          p.PuedeTransferir,
                                          p.PuedeCancelar,
                                          ut.ID_Tienda,
+                                          t.Descripcion as DescripcionTienda,
                                          ut.usuario,
                                          ut.FechaUltimaModificacion,
                                          ua.ID_Area,
+                                          a.Descripcion as DescripcionArea,
                                          ua.usuario,
                                          ua.FechaUltimaModificacion
                                 FROM usuarios u JOIN usuarios_perfil p ON u.ID_Perfil = p.ID_Perfil 
                                 LEFT JOIN usuarios_tiendas ut ON u.usuario = ut.usuario 
                                 LEFT JOIN usuarios_areas ua ON u.usuario = ua.usuario 
-                                WHERE u.usuario = @usuario AND u.password = @password";
+                                LEFT JOIN tiendas t ON t.ID_Tienda = ut.ID_Tienda 
+                                LEFT JOIN areas a ON a.ID_Area = ua.ID_Area";
 
                     var result = db.Query<UsuarioDTO, Usuarios_Perfil, Usuarios_Tiendas, Usuarios_Areas, UsuarioDTO>(
                     query,

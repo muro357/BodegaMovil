@@ -133,6 +133,29 @@ namespace BodegaMovil.Tests.Repositorios.WebAPI
         public void DebeObtenerPedidosParaSurtir()
         {
             var uc = new GetPedidosSurtirUseCase(rep);
+
+            var user = new UsuarioDTO()
+            {
+                usuario = "admin",
+                password= "control",
+                ListaTiendasAsignadas = new List<Usuarios_Tiendas>()
+                {
+                    new Usuarios_Tiendas() {ID_Tienda =1, usuario = "admin", DescripcionTienda = "Acayucan"},
+                    new Usuarios_Tiendas() {ID_Tienda =2, usuario = "admin", DescripcionTienda = "Mina"},
+                    new Usuarios_Tiendas() {ID_Tienda =3, usuario = "admin", DescripcionTienda = "Coatza"},
+                    new Usuarios_Tiendas() {ID_Tienda =4, usuario = "admin", DescripcionTienda = "Isla"},
+                    new Usuarios_Tiendas() {ID_Tienda =5, usuario = "admin", DescripcionTienda = "San Andres"}
+                },
+                ListaAreasAsignadas = new List<Usuarios_Areas>()
+                {
+                    new Usuarios_Areas(){ID_Area = 10, DescripcionArea="Articulos Varios"},
+                    new Usuarios_Areas(){ID_Area = 11, DescripcionArea="Herramientas"},
+                    new Usuarios_Areas(){ID_Area = 14, DescripcionArea="Diamante"},
+                    new Usuarios_Areas(){ID_Area = 19, DescripcionArea="Plomeria"},
+                }
+                
+            };
+
             var tiendas = new List<int>
             {
                 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
@@ -141,7 +164,7 @@ namespace BodegaMovil.Tests.Repositorios.WebAPI
             {
                 10,11,14,19
             };
-            var x = uc.ExecuteAsync(tiendas,areas);
+            var x = uc.ExecuteAsync(user,0,0);
 
             Assert.NotNull(x.Result);
             Assert.True(x.Result.Count > 3);

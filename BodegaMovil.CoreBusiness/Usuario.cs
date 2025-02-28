@@ -8,10 +8,10 @@ namespace BodegaMovil.CoreBusiness
 {
     public class Usuario
     {
-        public string usuario { get; set; }
-        public int ID_Perfil { get; set; }
-        public string password { get; set; }
-        public string Nombre { get; set; }
+        public string usuario { get; set; } = string.Empty;
+        public int ID_Perfil { get; set; } 
+        public string password { get; set; } = string.Empty;    
+        public string Nombre { get; set; } = string.Empty;
 
         
     }

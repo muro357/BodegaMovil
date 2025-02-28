@@ -31,14 +31,26 @@ namespace BodegaMovil.Tests.Repositorios.WebAPI
 
             var user = new AccesoDTO
             {
-                usuario = "",
-                password = ""
+                usuario = "admin",
+                password = "control"
             };
 
-            var x = uc.ExecuteAsync(user);
+            var user2 = new Usuario
+            {
+                usuario = "admin",
+                password = "control"
+            };
 
-            Assert.NotNull(x.Result);
+            //var x = uc.ExecuteAsync(user);
+
+            var res = rep.Autentificarse(user2);
+
+            //Assert.NotNull(x.Result);
+            //Assert.True(x.Result.Nombre == "Administrador1");
             //Assert.True(x);
+
+            Assert.NotNull(res.Result);
+            Assert.True(res.Result.Nombre == "Administrador1");
         }
     }
 }

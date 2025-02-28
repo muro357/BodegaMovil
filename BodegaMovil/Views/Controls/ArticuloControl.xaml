@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:vm="clr-namespace:BodegaMovil.ViewModels"
+             x:DataType="vm:ArticuloViewModel"
+             x:Class="BodegaMovil.Views.Controls.ArticuloControl">
+    <VerticalStackLayout Spacing="10">
+        <Frame Padding="10,2,10,2">
+            <HorizontalStackLayout>
+                <Label Text="SKU" VerticalOptions="Center" WidthRequest="60"></Label>
+                <Entry Text="{Binding PedidoDetalleDTO.SKU}" VerticalOptions="Center" IsReadOnly="True">
+                </Entry>
+            </HorizontalStackLayout>
+        </Frame>
+
+        <Frame Padding="10,2,10,2">
+            <HorizontalStackLayout>
+                <Label Text="Email" VerticalOptions="Center" WidthRequest="60"></Label>
+                <Entry Text="{Binding PedidoDetalleDTO.Descripcion}" VerticalOptions="Center" IsReadOnly="True">
+                </Entry>
+            </HorizontalStackLayout>
+        </Frame>
+
+        <Frame Padding="10,2,10,2">
+            <HorizontalStackLayout>
+                <Label Text="Phone" VerticalOptions="Center" WidthRequest="60"></Label>
+                <Entry Text="{Binding PedidoDetalleDTO.DescripcionArea}" VerticalOptions="Center" IsReadOnly="True"></Entry>
+            </HorizontalStackLayout>
+        </Frame>
+
+        <Frame Padding="10,2,10,2">
+            <HorizontalStackLayout>
+                <Label Text="Address" VerticalOptions="Center" WidthRequest="30"></Label>
+                <Entry Text="{Binding PedidoDetalleDTO.Unidad}" VerticalOptions="Center" IsReadOnly="True"></Entry>
+            </HorizontalStackLayout>
+        </Frame>
+
+        <Frame Padding="10,2,10,2">
+            <HorizontalStackLayout>
+                <Label Text="Address" VerticalOptions="Center" WidthRequest="30"></Label>
+                <Entry Text="{Binding PedidoDetalleDTO.CantidadPedida}" VerticalOptions="Center" IsReadOnly="True"></Entry>
+            </HorizontalStackLayout>
+        </Frame>
+
+        <Frame Padding="10,2,10,2">
+            <HorizontalStackLayout>
+                <Label Text="Address" VerticalOptions="Center" WidthRequest="30"></Label>
+                <Entry Text="{Binding PedidoDetalleDTO.CantidadSurtida}" VerticalOptions="Center">
+                    <Entry.Behaviors>
+                        <toolkit:TextValidationBehavior 
+                            x:Name="CantidadValidator"
+                            Flags="ValidateOnAttaching,ValidateOnValueChanged"
+                            MinimumLength="1"
+                            IsValid="{Binding IsCantidadSurtidaProvided}"
+                        />
+                    </Entry.Behaviors>
+                </Entry>
+            </HorizontalStackLayout>
+        </Frame>
+
+        <Frame Padding="10,2,10,2">
+            <HorizontalStackLayout>
+                <Label Text="Address" VerticalOptions="Center" WidthRequest="30"></Label>
+                <Entry Text="{Binding PedidoDetalleDTO.Contenedor}" VerticalOptions="Center">
+                    <Entry.Behaviors>
+                        <toolkit:TextValidationBehavior 
+                            x:Name="ContenedorValidator"
+                            Flags="ValidateOnAttaching,ValidateOnValueChanged"
+                            MinimumLength="1"
+                            IsValid="{Binding IsContenedorProvided}"
+                        />
+                    </Entry.Behaviors>
+                </Entry>
+            </HorizontalStackLayout>
+        </Frame>
+
+        <Frame Padding="10,2,10,2">
+            <HorizontalStackLayout>
+                <Button x:Name="btnSave" Text="Guardar" VerticalOptions="Center"></Button>
+                <Button x:Name="btnCancel" Text="Cancelar" Command="{Binding GoToListaArticulosCommand}" VerticalOptions="Center"></Button>
+            </HorizontalStackLayout>
+        </Frame>
+    </VerticalStackLayout>
+</ContentView>

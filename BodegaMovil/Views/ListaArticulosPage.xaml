@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BodegaMovil.ViewModels"
+             xmlns:m="clr-namespace:BodegaMovil.UseCases.DTO;assembly=BodegaMovil.UseCases"
+             x:DataType="vm:ListaArticulosViewModel"
+             x:Class="BodegaMovil.Views.ListaArticulosPage"
+             Title="Lista de Articulos" >
+
+    <Grid Padding="5"
+    RowDefinitions="Auto,Auto,*,Auto"
+    >
+
+        <!-- Encabezado con botón de regreso mejorado -->
+        <Grid Grid.Row="0" Padding="5" ColumnDefinitions="Auto, Auto" ColumnSpacing="30">
+            <ImageButton Source="arrow_back.png"
+                             HeightRequest="50"
+                             WidthRequest="50"
+                             BackgroundColor="Transparent"
+                             Padding="5"
+                             
+                             />
+            <Picker ItemsSource="{Binding OrdenarPor}"
+                    SelectedItem="{Binding Ordenar}"
+                    Title="Ordenar Por"
+                    HeightRequest="50"
+                    WidthRequest="150"
+                    Grid.Column="1">
+                
+            </Picker>
+        </Grid>
+
+
+        <SearchBar
+        x:Name="SearchBar"
+        Grid.Row="1"
+        Grid.Column="0"
+        Placeholder="Buscar Articulo"
+        />
+        <CollectionView 
+                Margin="5"
+                x:Name="ListaArticulos"
+                Grid.Row="2"
+                ItemsSource="{Binding ListaArticulos}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="m:PedidoDetalleDTO">
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Surtir"
+                                   BackgroundColor="Green"
+                                   Command="{Binding Source={x:Reference ListaArticulos}, Path=SurtirPedidoCommand}"
+                                   CommandParameter="{Binding SKU}">
+                                </SwipeItem>
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+
+                        <Frame Padding="10" Margin="5" BorderColor="Gray">
+                            <VerticalStackLayout>
+
+                                <HorizontalStackLayout>
+                                    <CheckBox IsChecked="{Binding Elegido, Mode=TwoWay}" VerticalOptions="Center"></CheckBox>
+                                    <Label Text="{Binding SKU}" FontAttributes="Bold" VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                <Label Text="{Binding Descripcion}"/>
+                                <HorizontalStackLayout>
+                                    <Label Text="{Binding CantidadPedida} "/>
+                                    <Label Text=" "/>
+                                    <Label Text="{Binding Unidad}"/>
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout>
+                                    <Label Text="Ubicacion: "/>
+                                    <Label Text="{Binding UbicacionCedis}"/>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </SwipeView>
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Contenedor para los botones de acción -->
+        <Grid Row="3" Padding="10">
+            <Grid Padding="5" ColumnDefinitions="Auto, Auto" ColumnSpacing="30">
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="12" Grid.Column="0">
+                <ImageButton Source="cancel_white.png"
+                 HeightRequest="40"
+                 WidthRequest="40"
+                 BackgroundColor="red"
+                 Padding="5"
+                 CornerRadius="10"
+                 />
+                <ImageButton Source="remove_selection_white.png"
+                 HeightRequest="40"
+                 WidthRequest="40"
+                 BackgroundColor="RoyalBlue"
+                 Padding="5"
+                 CornerRadius="10"
+                 />
+                    <Switch IsToggled="false"
+                    OnColor="Green"
+                    ThumbColor="Red"
+                    />      
+                </HorizontalStackLayout>
+                <HorizontalStackLayout Grid.Column="1" Spacing="-8">
+                    <CheckBox VerticalOptions="Center">
+                    </CheckBox>
+                    <Label Text="Surtidos En Ceros"  VerticalOptions="Center" VerticalTextAlignment="Center"></Label>
+                </HorizontalStackLayout>
+            </Grid>
+        </Grid>
+
+        <!-- Botón flotante dentro del Grid para que no haya conflicto con Content -->
+        <Button Text="+" 
+                BackgroundColor="DodgerBlue" 
+                TextColor="White"
+                CornerRadius="30"
+                WidthRequest="60"
+                HeightRequest="60"
+                HorizontalOptions="End"
+                VerticalOptions="End"
+                Margin="20"/>
+
+
+    </Grid>
+
+    
+
+
+
+</ContentPage>
