@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using BodegaMovil.Views;
+using System.Text.Json;
 
 namespace BodegaMovil.ViewModels
 {
@@ -72,7 +73,6 @@ namespace BodegaMovil.ViewModels
         
         public int ID_AreaSelected { get => id_areaSelected; set => SetProperty(ref id_areaSelected, value); }
 
-    
         #endregion
         
         public async Task AsignarUsuario(UsuarioDTO user)
@@ -135,17 +135,19 @@ namespace BodegaMovil.ViewModels
         [RelayCommand]
         public async Task Consultar()
         {
-            //await Application.Current.MainPage.DisplayAlert("Lista", id_tiendaSelected.ToString() + " " + id_areaSelected.ToString(), "OK");
             LoadPedidos(id_tiendaSelected, id_areaSelected);
         }
 
         [RelayCommand]
-        public async Task GoToListaArticulos(string folio)
+        public async Task GoToListaArticulos(ShowPedidoDTO pedido)
         {
-            if (string.IsNullOrEmpty(folio))
+            if (pedido == null)
                 return;
 
-            await Shell.Current.GoToAsync($"{nameof(ListaArticulosPage)}?folio={folio}");
+            //var json = JsonSerializer.Serialize(_user);
+            //var ped = JsonSerializer.Serialize(pedido);
+
+            await Shell.Current.GoToAsync($"{nameof(ListaArticulosPage)}?folio={pedido.Folio}&id_area_surtir={pedido.ID_Area}");
         }
     }
 }

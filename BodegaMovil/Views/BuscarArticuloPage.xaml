@@ -2,11 +2,108 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BodegaMovil.Views.BuscarArticuloPage"
-             Title="BuscarArticuloPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             xmlns:vm="clr-namespace:BodegaMovil.ViewModels"
+             xmlns:m="clr-namespace:BodegaMovil.UseCases.DTO;assembly=BodegaMovil.UseCases"
+             x:DataType="vm:BuscarArticuloViewModel"
+             Title="Buscar Articulo">
+    
+    <Grid Padding="5"
+          RowDefinitions="Auto,Auto,*"            
+    >
+        <Grid  
+            Grid.Row="0"
+            Padding="20" 
+            ColumnDefinitions="Auto, Auto, Auto" 
+            ColumnSpacing="20">
+
+            <Label Text="Buscar Por:"
+               Grid.Column="0" 
+               VerticalTextAlignment="Center"/>
+
+            <Grid RadioButtonGroup.GroupName="OptionsGroup"
+                        RadioButtonGroup.SelectedValue="{Binding TipoBusqueda}"
+                        Grid.Column="1"
+                        ColumnDefinitions="Auto,Auto"
+                        VerticalOptions="Center"
+                        ColumnSpacing="20">
+
+                <RadioButton Content="SKU" Value="SKU" Grid.Column="0"/>
+                <RadioButton Content="Descripcion" Value="Descripcion" Grid.Column="1"/>
+
+            </Grid>
+
+        </Grid>
+
+        <Grid Grid.Row="1" 
+              Padding="10" 
+              ColumnDefinitions="Auto, Auto" 
+              ColumnSpacing="10">
+             <!--<SearchBar
+                    Grid.Column="0"
+                    x:Name="SearchBar"
+                    Placeholder="Escriba el filtro"
+                    PlaceholderColor="Grey"
+                    Text="{Binding Filtro}" WidthRequest="290"
+                    />-->
+            <Entry
+                Grid.Column="0"
+                x:Name="SearchBar"
+                Placeholder="Escriba el filtro"
+                PlaceholderColor="Grey"
+                Text="{Binding Filtro}" WidthRequest="290"
+                />
+            <ImageButton Grid.Column="1"
+                    Source="search_48dp_white.png"
+                    Command="{Binding BuscarCommand}"
+                    CommandParameter="{Binding Filtro}"
+                    Margin="10,0,0,0"
+                    HeightRequest="40"
+                    WidthRequest="50"
+                    BackgroundColor="RoyalBlue"
+                    CornerRadius="10"
+                    />
+        </Grid>
+
+        <CollectionView 
+            Margin="5"
+            x:Name="ListaArticulosCollection"
+            Grid.Row="2"
+            ItemsSource="{Binding ListaArticulos}"
+            >
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="m:ArticuloDTO">
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem 
+                       IconImageSource="check_circle_white.png"
+                       BackgroundColor="Green"
+                       Command="{Binding Source={x:Reference ListaArticulosCollection}, Path=BindingContext.GoToAgregarArticuloCommand}"
+                       CommandParameter="{Binding .}">
+                                </SwipeItem>
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+
+                        <Frame Padding="10" Margin="5" BorderColor="Gray">
+                            <VerticalStackLayout>
+                                <HorizontalStackLayout>
+                                    <Label Text="SKU: "/>
+                                    <Label Text="{Binding SKU}" FontAttributes="Bold" VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout>
+                                    <Label Text="Descripcion: "/>
+                                    <Label Text="{Binding Descripcion}"/>
+                                </HorizontalStackLayout>
+              
+                            </VerticalStackLayout>
+                        </Frame>
+                    </SwipeView>
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+    </Grid>
 </ContentPage>

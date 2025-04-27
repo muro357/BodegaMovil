@@ -6,41 +6,52 @@ using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using BodegaMovil.Views;
 using BodegaMovil.CoreBusiness.Enums;
+using BodegaMovil.UseCases.Interfaces.Services;
 
 namespace BodegaMovil.ViewModels
 {
     public partial class ArticuloViewModel : ObservableObject
     {
-        private readonly GetArticuloUseCase getArticulo;
-        private readonly AddNewArtSurtirUseCase addNewArtSurtir;
-        private readonly SurtirUseCase surtir;
-        private ArticuloDTO articuloDTO;
-        private PedidoDetalleDTO pedidoDetalle;
-        public ArticuloDTO ArticuloDTO 
-        { 
-            get => articuloDTO; 
-            set => SetProperty(ref articuloDTO, value); 
-        }
-
-        public PedidoDetalleDTO PedidoDetalleDTO
-        {
-            get => pedidoDetalle;
-            set => SetProperty(ref pedidoDetalle, value);
-        }
-
-        public ArticuloViewModel(GetArticuloUseCase getArticulo, AddNewArtSurtirUseCase addNewArtSurtir, SurtirUseCase surtir)
-        {
-            this.getArticulo = getArticulo;
-            this.addNewArtSurtir = addNewArtSurtir;
-            this.surtir = surtir;
-        }
-
+        private readonly AddNewArtSurtirUseCase _addNewArtSurtir;
+        private readonly SurtirUseCase _surtir;
+        private readonly IMapa _mapa;
+        private ArticuloDTO _articulo;
+        private PedidoDTO _pedido;
         
-
-        public async Task LoadArticulo(string sku, int id_tienda)
+        [ObservableProperty]
+        private PedidoDetalleDTO linea;
+        
+        public ArticuloViewModel(AddNewArtSurtirUseCase addNewArtSurtir, SurtirUseCase surtir, IMapa mapa)
         {
-            this.articuloDTO = await getArticulo.ExecuteAsync(sku, id_tienda);
-            
+            _addNewArtSurtir = addNewArtSurtir;
+            _surtir = surtir;
+            _mapa = mapa;
+        }
+
+        //Agregar Articulo Page
+        public async Task LoadArticulo(PedidoDTO pedido, ArticuloDTO art)
+        {
+            _pedido = pedido;
+            _articulo = art;
+
+            Linea = new PedidoDetalleDTO()
+            {
+                SKU = _articulo.SKU,
+                Descripcion = _articulo.Descripcion,
+                ID_Tienda = _pedido.ID_Tienda,
+                ID_Area = _pedido.ID_AreaSurtir,
+                DescripcionArea = _pedido.PedidoDetalle[0].DescripcionArea,
+                Unidad = _articulo.UnidadVenta,
+                CantidadPedida = 0,
+                Tipo = _pedido.Tipo,
+            };
+        }
+
+        //Capturar Articulo Page
+        public async Task LoadArticulo(PedidoDTO pedido, PedidoDetalleDTO linea)
+        {
+            _pedido = pedido;
+            Linea = linea;
         }
 
         [RelayCommand]
@@ -48,8 +59,17 @@ namespace BodegaMovil.ViewModels
         {
             if (await ValidateArticulo())
             {
-                await this.addNewArtSurtir.ExecuteAsync(new PedidoDTO(),new Articulo(), 0, FormaDeCalculo.Articulo_Agregado);
-                await Shell.Current.GoToAsync($"{nameof(ListaArticulosPage)}");
+                var art = _mapa.GetEntity<ArticuloDTO, Articulo>(_articulo);
+
+                try
+                {
+                    await _addNewArtSurtir.ExecuteAsync(_pedido, art, Linea.CantidadSurtida, FormaDeCalculo.Articulo_Agregado);
+                    await GoToListaArticulos();
+                }
+                catch (Exception ex)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
+                }
             }
         }
 
@@ -58,15 +78,15 @@ namespace BodegaMovil.ViewModels
         {
             if (await ValidateArticulo())
             {
-                await this.surtir.ExecuteAsync(new PedidoDTO(), new PedidoDetalleDTO());
-                await Shell.Current.GoToAsync($"{nameof(ListaArticulosPage)}");
+                await _surtir.ExecuteAsync(_pedido, Linea);
+                await GoToListaArticulos();
             }
         }
         
         [RelayCommand]
         public async Task GoToListaArticulos()
         {
-            await Shell.Current.GoToAsync($"{nameof(ListaArticulosPage)}");
+            await Shell.Current.GoToAsync($"{nameof(ListaArticulosPage)}?folio={_pedido.Folio}&id_area_surtir={_pedido.ID_AreaSurtir}");
         }
 
         #region Validaciones

@@ -1,0 +1,2 @@
+\\Se agregan dos columnas en pedidos_detalle:
+SurtidoPor Varchar(16) null

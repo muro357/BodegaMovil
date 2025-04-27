@@ -42,6 +42,24 @@ namespace BodegaMovil.Plugins.DataStore.WebApi
             return false;
         }
 
+        
+        public async Task<bool> Finalizar(Pedido pedido)
+        {
+            string json = JsonSerializer.Serialize(pedido, _serializerOptions);
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            Uri uri = new Uri($"{Constants.url}/pedido/finalizar");
+
+            var response = await _httpClient.PutAsync(uri, content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public async Task<List<ShowPedidoDTO>> GetPedidosSurtir(IEnumerable<int> ID_Tienda, IEnumerable<int> ID_Area)
         {
             var solicitud = new GetPedidoDTO()
@@ -66,7 +84,7 @@ namespace BodegaMovil.Plugins.DataStore.WebApi
             return lista;
         }
 
-        public async Task<PedidoDTO> GetSurtirById(int id_tienda, string folio)
+        public async Task<PedidoDTO> GetSurtirById(int id_tienda, string folio, int id_area_surtir)
         {
             Uri uri = new Uri($"{Constants.url}/getpedidos/{id_tienda}/{folio}");
             PedidoDTO p = null;

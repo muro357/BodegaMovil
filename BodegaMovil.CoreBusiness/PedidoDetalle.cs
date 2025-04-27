@@ -30,6 +30,7 @@ namespace BodegaMovil.CoreBusiness
         public DateTime? FechaChecado { get; set; }
         public string Referencia { get; set; }//Folio de Ticket o Factura
         public float PedidoInferido { get; set; }
+        public string SurtidoPor { get; set; }
 
         public PedidoDetalle()
         {

@@ -5,48 +5,48 @@
              xmlns:vm="clr-namespace:BodegaMovil.ViewModels"
              x:DataType="vm:ArticuloViewModel"
              x:Class="BodegaMovil.Views.Controls.ArticuloControl">
-    <VerticalStackLayout Spacing="10">
+    <VerticalStackLayout Spacing="10" Padding="20">
         <Frame Padding="10,2,10,2">
-            <HorizontalStackLayout>
-                <Label Text="SKU" VerticalOptions="Center" WidthRequest="60"></Label>
-                <Entry Text="{Binding PedidoDetalleDTO.SKU}" VerticalOptions="Center" IsReadOnly="True">
+            <HorizontalStackLayout >
+                <Label Text="SKU" VerticalOptions="Center" WidthRequest="80"></Label>
+                <Entry Text="{Binding Linea.SKU}" VerticalOptions="Center" IsReadOnly="True">
                 </Entry>
             </HorizontalStackLayout>
         </Frame>
 
         <Frame Padding="10,2,10,2">
             <HorizontalStackLayout>
-                <Label Text="Email" VerticalOptions="Center" WidthRequest="60"></Label>
-                <Entry Text="{Binding PedidoDetalleDTO.Descripcion}" VerticalOptions="Center" IsReadOnly="True">
+                <Label Text="Descripcion" VerticalOptions="Center" WidthRequest="80"></Label>
+                <Entry Text="{Binding Linea.Descripcion}" VerticalOptions="Center" IsReadOnly="True">
                 </Entry>
             </HorizontalStackLayout>
         </Frame>
 
         <Frame Padding="10,2,10,2">
             <HorizontalStackLayout>
-                <Label Text="Phone" VerticalOptions="Center" WidthRequest="60"></Label>
-                <Entry Text="{Binding PedidoDetalleDTO.DescripcionArea}" VerticalOptions="Center" IsReadOnly="True"></Entry>
+                <Label Text="Area" VerticalOptions="Center" WidthRequest="80"></Label>
+                <Entry Text="{Binding Linea.DescripcionArea}" VerticalOptions="Center" IsReadOnly="True"></Entry>
             </HorizontalStackLayout>
         </Frame>
 
         <Frame Padding="10,2,10,2">
             <HorizontalStackLayout>
-                <Label Text="Address" VerticalOptions="Center" WidthRequest="30"></Label>
-                <Entry Text="{Binding PedidoDetalleDTO.Unidad}" VerticalOptions="Center" IsReadOnly="True"></Entry>
+                <Label Text="Unidad" VerticalOptions="Center" WidthRequest="80"></Label>
+                <Entry Text="{Binding Linea.Unidad}" VerticalOptions="Center" IsReadOnly="True"></Entry>
             </HorizontalStackLayout>
         </Frame>
 
         <Frame Padding="10,2,10,2">
             <HorizontalStackLayout>
-                <Label Text="Address" VerticalOptions="Center" WidthRequest="30"></Label>
-                <Entry Text="{Binding PedidoDetalleDTO.CantidadPedida}" VerticalOptions="Center" IsReadOnly="True"></Entry>
+                <Label Text="Cantidad Pedida" VerticalOptions="Center" WidthRequest="80"></Label>
+                <Entry Text="{Binding Linea.CantidadPedida}" VerticalOptions="Center" IsReadOnly="True"></Entry>
             </HorizontalStackLayout>
         </Frame>
 
         <Frame Padding="10,2,10,2">
             <HorizontalStackLayout>
-                <Label Text="Address" VerticalOptions="Center" WidthRequest="30"></Label>
-                <Entry Text="{Binding PedidoDetalleDTO.CantidadSurtida}" VerticalOptions="Center">
+                <Label Text="Cantidad Surtida" VerticalOptions="Center" WidthRequest="80"></Label>
+                <Entry Text="{Binding Linea.CantidadSurtida}" VerticalOptions="Center">
                     <Entry.Behaviors>
                         <toolkit:TextValidationBehavior 
                             x:Name="CantidadValidator"
@@ -59,10 +59,10 @@
             </HorizontalStackLayout>
         </Frame>
 
-        <Frame Padding="10,2,10,2">
+        <Frame>
             <HorizontalStackLayout>
-                <Label Text="Address" VerticalOptions="Center" WidthRequest="30"></Label>
-                <Entry Text="{Binding PedidoDetalleDTO.Contenedor}" VerticalOptions="Center">
+                <Label Text="Tara" VerticalOptions="Center" WidthRequest="80"></Label>
+                <Entry Text="{Binding Linea.Contenedor}" VerticalOptions="Center">
                     <Entry.Behaviors>
                         <toolkit:TextValidationBehavior 
                             x:Name="ContenedorValidator"
@@ -75,11 +75,9 @@
             </HorizontalStackLayout>
         </Frame>
 
-        <Frame Padding="10,2,10,2">
-            <HorizontalStackLayout>
-                <Button x:Name="btnSave" Text="Guardar" VerticalOptions="Center"></Button>
-                <Button x:Name="btnCancel" Text="Cancelar" Command="{Binding GoToListaArticulosCommand}" VerticalOptions="Center"></Button>
-            </HorizontalStackLayout>
-        </Frame>
+        
+       <Button x:Name="btnSave" Text="Guardar" VerticalOptions="Center"></Button>
+       <Button x:Name="btnCancel" Text="Cancelar" Command="{Binding GoToListaArticulosCommand}" VerticalOptions="Center"></Button>
+            
     </VerticalStackLayout>
 </ContentView>

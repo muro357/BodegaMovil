@@ -37,14 +37,14 @@ namespace BodegaMovil.Plugins.DataStore.WebApi
             string json = JsonSerializer.Serialize(user1, _serializerOptions);
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            //Uri uri = new Uri($"{Constants.url}/usuarios");
-            Uri uri = new Uri($"http://localhost:5193/api/usuarios");
-            Uri uri2 = new Uri($"http://10.0.2.2:5193/api/usuarios");
+            Uri uri = new Uri($"{Constants.url}/usuarios");
+            //Uri uri = new Uri($"http://localhost:5193/api/usuarios");
+            //Uri uri2 = new Uri($"http://10.0.2.2:5193/api/usuarios");
 
             UsuarioDTO? user = null;
             //try
             //{
-                var response = await _httpClient.PostAsync(uri2, content);
+                var response = await _httpClient.PostAsync(uri, content);
                 if (response.IsSuccessStatusCode)
                 {
                     string respuesta = await response.Content.ReadAsStringAsync();

@@ -1,4 +1,5 @@
 ﻿using BodegaMovil.CoreBusiness;
+using BodegaMovil.UseCases.DTO;
 using BodegaMovil.UseCases.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace BodegaMovil.UseCases
             _repository = repository;
         }
 
-        public async Task<List<Articulo>> ExecuteAsync(string filter, int id_tienda)
+        public async Task<List<ArticuloDTO>> ExecuteAsync(string filter, int id_tienda)
         {
             var list = await _repository.GetArticulos(filter, id_tienda);
             return list;

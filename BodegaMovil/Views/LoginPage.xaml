@@ -48,5 +48,14 @@
                 HeightRequest="50"
                 FontAttributes="Bold"
                 HorizontalOptions="Fill" />
+
+        <!-- Logotipo -->
+        <ImageButton Source="settings_32dp_black.png"
+            BackgroundColor="#FFD700"
+            HeightRequest="33"
+            WidthRequest="32"
+            Command="{Binding GoToConfiguracionCommand}"
+            HorizontalOptions="Center" />
+        
     </VerticalStackLayout>
 </ContentPage>

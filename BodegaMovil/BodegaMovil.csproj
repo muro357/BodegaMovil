@@ -38,6 +38,7 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -69,8 +70,16 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\BodegaMovil.CoreBusiness\BodegaMovil.CoreBusiness.csproj" />
 	  <ProjectReference Include="..\BodegaMovil.UseCases\BodegaMovil.UseCases.csproj" />
+	  <ProjectReference Include="..\Plugins\BodegaMovil.Plugins.DataStore.SQLServer\BodegaMovil.Plugins.DataStore.MySQL.csproj" />
 	  <ProjectReference Include="..\Plugins\BodegaMovil.Plugins.DataStore.WebApi\BodegaMovil.Plugins.DataStore.WebApi.csproj" />
 	  <ProjectReference Include="..\Services\BodegaMovil.Services.Maps.AutoMapper\BodegaMovil.Services.Maps.AutoMapper.csproj" />
+	  <ProjectReference Include="..\Services\BodegaMovil.Services.Settings.Preferences\BodegaMovil.Services.Settings.Preferences.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Views\Controls\ArticuloControl.xaml.cs">
+	    <DependentUpon>ArticuloControl.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -83,6 +92,12 @@
 	  <MauiXaml Update="Views\CapturaArticuloPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\ConfiguracionAccesoPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ConfiguracionPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\Controls\ArticuloControl.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -90,6 +105,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ListaPedidosPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ListaTarasPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\LoginPage.xaml">

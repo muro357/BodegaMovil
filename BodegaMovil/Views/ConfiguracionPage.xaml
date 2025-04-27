@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BodegaMovil.Views.ConfiguracionPage"
+             xmlns:m="clr-namespace:BodegaMovil.CoreBusiness;assembly=BodegaMovil.CoreBusiness"
+             xmlns:vm="clr-namespace:BodegaMovil.ViewModels"
+             x:DataType="vm:ConfiguracionViewModel"
+             Title="Configuracion"
+             >
+    
+    <ScrollView>
+        <VerticalStackLayout Padding="30" Spacing="20">
+            <Label Text="Configuración de conexión" FontSize="20" FontAttributes="Bold" />
+
+            <Entry Text="{Binding Cadena}" Placeholder="Server=10.0.2.2;Database=bd;User ID=admin;Password=12345678" />
+
+            <Button Text="Probar Conexión" Command="{Binding ProbarConexionCommand}" />
+            <Label Text="{Binding MensajeConexion}" TextColor="{Binding ConexionExitosa, Converter={StaticResource BoolToColorConverter}}" />
+
+            <Picker 
+                Title="Seleccionar tienda" 
+                ItemsSource="{Binding Tiendas}" 
+                ItemDisplayBinding="{Binding Descripcion}" 
+                SelectedItem="{Binding TiendaSeleccionada}" />
+
+            <Button Text="Guardar Configuración" Command="{Binding GuardarCommand}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

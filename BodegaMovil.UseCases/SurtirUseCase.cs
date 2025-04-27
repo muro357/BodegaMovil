@@ -24,12 +24,14 @@ namespace BodegaMovil.UseCases
         public async Task<bool> ExecuteAsync(PedidoDTO pedidoDTO, PedidoDetalleDTO pedidoDetalleDTO)
         {
             var pedidoDetalle = _mapa.GetEntity<PedidoDetalleDTO, PedidoDetalle>(pedidoDetalleDTO);
+            pedidoDetalle.SurtidoPor = pedidoDTO.SurtidoPor;
             var ok = await _pedidoRepository.Surtir(pedidoDetalle);
             if (ok)
             {
                 var pd = pedidoDTO.PedidoDetalle.Where(x => x.SKU == pedidoDetalleDTO.SKU).FirstOrDefault();
                 pd.CantidadSurtida = pedidoDetalleDTO.CantidadSurtida;
                 pd.Contenedor = pedidoDetalleDTO.Contenedor;
+                pd.SurtidoPor = pedidoDTO.SurtidoPor;
                 return ok;
             }
             else

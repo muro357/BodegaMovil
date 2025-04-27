@@ -6,6 +6,9 @@
              x:DataType="vm:ListaPedidosViewModel"
              x:Class="BodegaMovil.Views.ListaPedidosPage"
              Title="Lista de Pedidos">
+
+
+    
     <Grid 
     Padding="5"
     RowDefinitions="50,*"
@@ -26,14 +29,15 @@
 
             <ImageButton 
                     Command="{Binding ConsultarCommand}"
-                    Source="search_white.png"
+                    Source="search_48dp_white.png"
                     HeightRequest="40"
-                    WidthRequest="70"
+                    WidthRequest="50"
                     BackgroundColor="RoyalBlue"
                     Grid.Column="2"
-                    CornerRadius="20"
+                    CornerRadius="10"
                 />
         </Grid>
+                           
 
         <CollectionView x:Name="ListaPedidosCollection"
                         Grid.Row="1"
@@ -46,8 +50,7 @@
                                 <SwipeItem Text="Surtir"
                                            BackgroundColor="Green"
                                            Command="{Binding Source={x:Reference ListaPedidosCollection}, Path=BindingContext.GoToListaArticulosCommand}"
-                                           CommandParameter="{Binding Folio}">
-                                    
+                                           CommandParameter="{Binding .}">
                                 </SwipeItem>
                             </SwipeItems>
                         </SwipeView.RightItems>
@@ -61,8 +64,7 @@
                             </VerticalStackLayout>
                         </Frame>
                     </SwipeView>
-                    
-                    
+
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

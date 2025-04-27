@@ -26,7 +26,7 @@ namespace BodegaMovil.Tests.Repositorios.WebAPI
         {
             //ObtenerPedido
             var pedidouc = new GetPedidoSurtirUseCase(rep);
-            var ped = pedidouc.ExecuteAsync(1, "PS0100001545");
+            var ped = pedidouc.ExecuteAsync(1, "PS0100001545",0);
             ped.Result.ID_AreaSurtir = 10;
             //Iniciar un mapeador
             var map = new AutoMapperConfig();
@@ -87,7 +87,7 @@ namespace BodegaMovil.Tests.Repositorios.WebAPI
             var uc = new ContemplarExistenciaUseCase(rep, map);
             var getpedido = new GetPedidoSurtirUseCase(rep);
 
-            var p = getpedido.ExecuteAsync(1, "PS0100001545");
+            var p = getpedido.ExecuteAsync(1, "PS0100001545",0);
 
             var pd = p.Result.PedidoDetalle.Where(x => x.SKU == "00061" || x.SKU == "00062").ToList();
 
@@ -111,7 +111,7 @@ namespace BodegaMovil.Tests.Repositorios.WebAPI
             var uc = new DepurarUseCase(rep, map);
             var getpedido = new GetPedidoSurtirUseCase(rep);
 
-            var p = getpedido.ExecuteAsync(1, "PS0100001545");
+            var p = getpedido.ExecuteAsync(1, "PS0100001545", 0);
 
             var pd = p.Result.PedidoDetalle.Where(x => x.SKU == "#13044" || x.SKU == "#13045").ToList();
 
@@ -175,7 +175,7 @@ namespace BodegaMovil.Tests.Repositorios.WebAPI
         {
             var uc = new GetPedidoSurtirUseCase(rep);
             
-            var x = uc.ExecuteAsync(1, "PS0100001550");
+            var x = uc.ExecuteAsync(1, "PS0100001550", 0);
 
             Assert.NotNull(x.Result);
             Assert.Equal("Plomeria",x.Result.DescripcionArea);
@@ -188,7 +188,7 @@ namespace BodegaMovil.Tests.Repositorios.WebAPI
             var uc = new SurtirUseCase(rep, map);
             var getpedido = new GetPedidoSurtirUseCase(rep);
 
-            var p = getpedido.ExecuteAsync(1, "PS0100001545");
+            var p = getpedido.ExecuteAsync(1, "PS0100001545", 0);
 
             //var pd = p.Result.PedidoDetalle.FirstOrDefault(x => x.SKU == "#13044");
 
@@ -202,9 +202,7 @@ namespace BodegaMovil.Tests.Repositorios.WebAPI
 
             var x = uc.ExecuteAsync(p.Result,pd);
 
-            //var ts = 
-
-            //var xd = rep.Surtir(pd);
+           
 
             Assert.NotNull(p);
             Assert.NotNull(pd);

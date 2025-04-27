@@ -13,7 +13,7 @@ namespace BodegaMovil.UseCases.Interfaces
 
         Task<ArticuloDTO> GetArticulo(string sku, int id_tienda);
 
-        Task<List<Articulo>> GetArticulos(string filtro, int id_tienda);
+        Task<List<ArticuloDTO>> GetArticulos(string filtro, int id_tienda);
 
     }
 }

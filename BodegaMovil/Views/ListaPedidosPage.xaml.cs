@@ -5,10 +5,12 @@ using System.Text.Json;
 namespace BodegaMovil.Views;
 
 [QueryProperty(nameof(UserJSON), "user")]
+[QueryProperty(nameof(Reset), "reset")]
 public partial class ListaPedidosPage : ContentPage
 {
     private readonly ListaPedidosViewModel listaPedidosView;
     private UsuarioDTO _userAutorized;
+    private string _reset;
     private JsonSerializerOptions _serializerOptions;
 
     public ListaPedidosPage(ListaPedidosViewModel listaPedidosView)
@@ -34,6 +36,18 @@ public partial class ListaPedidosPage : ContentPage
             LoadPedidos(_userAutorized);
         }
 	}
+
+    public string Reset
+    {
+        set
+        {
+            _reset = value;
+            this.listaPedidosView.ListaPedidos.Clear();
+
+            
+
+        }
+    }
 
     private async void LoadPedidos(UsuarioDTO user)
     {

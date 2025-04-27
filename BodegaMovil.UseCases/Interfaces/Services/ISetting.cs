@@ -8,8 +8,11 @@ namespace BodegaMovil.UseCases.Interfaces.Services
 {
     public interface ISetting
     {
-        Task<string> Get { get; }
-
-        Task Update(string url);
+        Task SetApiUrlAsync(string url);
+        Task<string> GetApiUrlAsync();
+        Task SetStoreIdAsync(string storeId);
+        Task<string> GetStoreIdAsync();
+        Task SetConnectionAsync(string cadena);
+        Task<string> GetConnectionAsync();
     }
 }

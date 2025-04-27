@@ -13,13 +13,17 @@ using BodegaMovil.UseCases.Interfaces;
 using BodegaMovil.UseCases;
 using BodegaMovil.Views;
 using System.Text.Json;
+using Microsoft.Maui.Controls.PlatformConfiguration;
+using BodegaMovil.Services.Settings.Preferences;
+using BodegaMovil.UseCases.Interfaces.Services;
 
 namespace BodegaMovil.ViewModels
 {
     public partial class LoginViewModel : ObservableObject
     {
         LoguearseUseCase _loguearse;
-       private AccesoDTO _acceso;
+        private readonly ISetting _settings;
+        private AccesoDTO _acceso;
 
         public AccesoDTO Acceso
         {
@@ -36,10 +40,11 @@ namespace BodegaMovil.ViewModels
             } 
         }
 
-        public LoginViewModel(LoguearseUseCase loguearse)
+        public LoginViewModel(LoguearseUseCase loguearse, ISetting settings)
         {
             _acceso = new AccesoDTO();
             _loguearse = loguearse;
+            _settings = settings;
         }
 
         [RelayCommand]
@@ -51,8 +56,14 @@ namespace BodegaMovil.ViewModels
                 return;
             }
 
-            // Aquí iría la lógica de autenticación
-            //await Application.Current.MainPage.DisplayAlert("Éxito", "Inicio de sesión exitoso", "OK");
+            var id_cedis = await _settings.GetStoreIdAsync();
+            var cadena = await _settings.GetConnectionAsync();
+
+            if (string.IsNullOrWhiteSpace(id_cedis) || string.IsNullOrWhiteSpace(cadena))
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "No se ha configurado la tienda o la cadena de conexión", "OK");
+                return;
+            }
 
             var user = await _loguearse.ExecuteAsync(_acceso);
 
@@ -60,12 +71,20 @@ namespace BodegaMovil.ViewModels
             {
                 var json = JsonSerializer.Serialize(user);
 
+                await SecureStorage.Default.SetAsync("user", user.usuario);
+                
+
                 await Shell.Current.GoToAsync($"{nameof(ListaPedidosPage)}?user={json}");
-                //await Application.Current.MainPage.DisplayAlert("Éxito", "Inicio de sesión exitoso", "OK");
             }
             else
                 await Application.Current.MainPage.DisplayAlert("Error", "El usuario y/o password es incorrecto", "OK");
 
+        }
+
+        [RelayCommand]
+        private async Task GoToConfiguracion()
+        {
+            await Shell.Current.GoToAsync($"{nameof(ConfiguracionAccesoPage)}");
         }
     }
 }

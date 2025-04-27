@@ -4,41 +4,98 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BodegaMovil.UseCases.DTO;
+using BodegaMovil.CoreBusiness.Enums;
 
 namespace BodegaMovil.UseCases.QueriesObjects
 {
-    //public class ProductQuery
-    //{
-    //    private IQueryable<PedidoDetalle> _query;
+    public class PedidoQuery
+    {
+        private IQueryable<PedidoDetalleDTO> _query;
 
-    //    public ProductQuery(IQueryable<PedidoDetalle> query)
-    //    {
-    //        _query = query;
-    //    }
+        public PedidoQuery(IQueryable<PedidoDetalleDTO> query)
+        {
+            _query = query;
+        }
 
-    //    public ProductQuery ByCriterio(string tipoDato, string filtro)
-    //    {
-    //        if(tipoDato.ToLower() == "sku")
-    //            _query = _query.Where(p => p.SKU.StartsWith(filtro));
+        public PedidoQuery MostrarPorSurtir()
+        {
+            _query = (from item in _query
+                    where item.CantidadPedida > 0f && !item.CantidadSurtida.HasValue
+                    select item);
 
-    //        if (tipoDato.ToLower() == "descripcion")
-    //            _query = _query.Where(p => p.StartsWith(filtro));
+            return this;
+        }
 
-    //        return this;
-    //    }
+        public PedidoQuery MostrarSurtidos(bool mostrarSurtidosEnCeros)
+        {
+            if (mostrarSurtidosEnCeros)
+            {
+                _query = (from item in _query
+                          where item.FormaDeCalculo == FormaDeCalculo.Articulo_Agregado || item.CantidadSurtida.HasValue
+                          select item);
+            }
+            else
+            {
+                _query = (from item in _query
+                          where (item.CantidadSurtida.HasValue && item.CantidadSurtida > 0) || 
+                          item.FormaDeCalculo == FormaDeCalculo.Articulo_Agregado
+                          select item);
+            }
 
-    //    public ProductQuery MinPrice(decimal price)
-    //    {
-    //        _query = _query.Where(p => p.Price >= price);
-    //        return this;
-    //    }
+            return this;
+        }
 
-    //    public ProductQuery OnlyAvailable()
-    //    {
-    //        _query = _query.Where(p => p.IsAvailable);
-    //        return this;
-    //    }
+        public PedidoQuery OrderBy(OrdenarPor ordenarPor)
+        {
+            switch (ordenarPor)
+            {
+                case OrdenarPor.SKU:
+                    _query = (from x in _query
+                              orderby x.SKU
+                              select x);
+                    //return result;
+                    break;
+                case OrdenarPor.Descripcion:
+                    _query = (from x in _query
+                              orderby x.Descripcion
+                              select x);
+                    break;
+                case OrdenarPor.Ubicacion:
+                    _query = (from x in _query
+                              orderby x.UbicacionCedis
+                              select x);
+                    break;
+                case OrdenarPor.Cantidad_Pedida:
+                    _query = (from x in _query
+                              orderby x.CantidadPedida
+                              select x);
+                    break;
+            }
 
-    //    public IQueryable<Product> Build() => _query;
-    //}
+            return this;
+        }
+
+        
+
+        public PedidoQuery Filtrar(string filtro, FiltrarPor filtrarPor)
+        {
+            if (filtrarPor == FiltrarPor.SKU)
+            {
+                _query = (from item in _query
+                          where item.SKU == filtro
+                          select item);
+            }
+            else if (filtrarPor == FiltrarPor.Descripcion)
+            {
+                _query = (from item in _query
+                          where item.Descripcion.Contains(filtro)
+                          select item);
+            }   
+
+            return this;
+        }
+
+        public IQueryable<PedidoDetalleDTO> Build() => _query;
+    }
 }

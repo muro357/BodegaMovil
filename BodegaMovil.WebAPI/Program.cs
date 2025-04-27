@@ -23,14 +23,18 @@ namespace BodegaMovil.WebAPI
 
             // Configure the HTTP request pipeline.
             //app.UseAuthorization();
-
+            /*Se agrega linea para hacer probar conexion*/
+            app.MapGet("/ping", () =>
+            {
+                return Results.Ok("pong");
+            });
             AreaEndPoints.MapAreaRoutes(app);
             TiendaEndPoints.MapTiendaRoutes(app);
             ArticuloEndPoints.MapArticuloRoutes(app);
             UsuarioEndPoints.MapUsuarioRoutes(app);
             GetPedidoEndPoints.MapGetPedidoRoutes(app);
             PedidoEndPoints.MapPedidoRoutes(app);
-
+            ContenedorEndPoints.MapTaraRoutes(app);
             app.Run();
         }
     }

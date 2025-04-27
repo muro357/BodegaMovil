@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace BodegaMovil.CoreBusiness
 {
-    public class Tara
+    public class Contenedor
     {
         public string Folio { get; set; }
-        public int NumTara { get; set; }
+        public int Tara { get; set; }
         public string Estado { get; set; }
     }
 }

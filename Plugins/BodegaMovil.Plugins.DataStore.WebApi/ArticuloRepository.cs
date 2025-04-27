@@ -50,9 +50,9 @@ namespace BodegaMovil.Plugins.DataStore.WebApi
             return art;
         }
 
-        public async Task<List<Articulo>> GetArticulos(string filtro, int id_tienda)
+        public async Task<List<ArticuloDTO>> GetArticulos(string filtro, int id_tienda)
         {
-            var arts = new List<Articulo>();
+            var arts = new List<ArticuloDTO>();
 
             Uri uri = new Uri($"{Constants.url}/articulos?id={id_tienda}&s={filtro}");
 
@@ -61,7 +61,7 @@ namespace BodegaMovil.Plugins.DataStore.WebApi
             if (response.IsSuccessStatusCode)
             {
                 string content = await response.Content.ReadAsStringAsync();
-                arts = JsonSerializer.Deserialize<List<Articulo>>(content, _serializerOptions);
+                arts = JsonSerializer.Deserialize<List<ArticuloDTO>>(content, _serializerOptions);
             }
 
             return arts;

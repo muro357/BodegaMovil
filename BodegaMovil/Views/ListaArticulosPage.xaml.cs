@@ -2,46 +2,101 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using BodegaMovil.UseCases.DTO;
 using BodegaMovil.ViewModels;
+using System.Text.Json;
 
 namespace BodegaMovil.Views;
 
-[QueryProperty(nameof(Folio),"folio")]
-//[QueryProperty(nameof(ID_tienda), "id_tienda")]
+//[QueryProperty(nameof(Pedido),"pedido")]
+[QueryProperty(nameof(Folio), "folio")]
+[QueryProperty(nameof(ID_AreaSurtir), "id_area_surtir")]
 public partial class ListaArticulosPage : ContentPage
 {
 	public ListaArticulosPage(ListaArticulosViewModel listaArticulos)
 	{
-		InitializeComponent();
-        this.listaArticulos = listaArticulos;
-        this.BindingContext = listaArticulos;
-        this.ID_tienda = 90;
+        //_serializerOptions = new JsonSerializerOptions()
+        //{
+        //    PropertyNameCaseInsensitive = true,
+        //    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        //    WriteIndented = true,
+        //};
+
+        InitializeComponent();
+        _listaArticulos = listaArticulos;
+        this.BindingContext = _listaArticulos;
     }
 
+    //private readonly JsonSerializerOptions _serializerOptions;
+    private string tara;
+    //private ShowPedidoDTO _pedido;
+    private readonly ListaArticulosViewModel _listaArticulos;
+    private string _folio;
+    private int _id_areaSurtir;
 
-    private string folio;
-    private int id_tienda;
-    private readonly ListaArticulosViewModel listaArticulos;
 
+    //public string Pedido
+    //{
+    //    set
+    //    {
+    //        _pedido = JsonSerializer.Deserialize<ShowPedidoDTO>(value, _serializerOptions);
+    //    }
+    //}
 
     public string Folio
     {
-        set => folio = value;
+        set
+        {
+            _folio = value;
+        }
     }
 
-    public int ID_tienda
+    public string ID_AreaSurtir
     {
-        set => id_tienda = value;
+       
+        set
+        {
+            var id_area = value;
+            if (int.TryParse(id_area, out int id))
+            {
+                _id_areaSurtir = id;
+            }
+            else
+            {
+                _id_areaSurtir = 0;
+            }
+        }
     }
+
+
+    public string Tara
+    {
+        get => tara;
+        set => tara = value;
+    }
+
+    
 
     protected override async void OnAppearing()
     {
         base.OnAppearing();
 
         await LoadArticulos();
+        await AsignarTara();
     }
 
     private async Task LoadArticulos()
     {
-        await this.listaArticulos.LoadArticulos(folio,id_tienda);
+         
+        await _listaArticulos.LoadArticulos(_folio, _id_areaSurtir);
+    }
+
+    private async Task AsignarTara()
+    {
+        await _listaArticulos.AsignarTara(tara);
+    }
+
+   
+    private void BackButton_Clicked(object sender, EventArgs e)
+    {
+        Shell.Current.GoToAsync("..");
     }
 }

@@ -12,15 +12,16 @@
     >
 
         <!-- Encabezado con botón de regreso mejorado -->
-        <Grid Grid.Row="0" Padding="5" ColumnDefinitions="Auto, Auto" ColumnSpacing="30">
-            <ImageButton Source="arrow_back.png"
+        <Grid Grid.Row="0" Padding="5" ColumnDefinitions="Auto, Auto, Auto" ColumnSpacing="20">
+            <ImageButton    x:Name="BackButton"
+                             Source="arrow_back.png"
                              HeightRequest="50"
                              WidthRequest="50"
                              BackgroundColor="Transparent"
                              Padding="5"
-                             
+                             Clicked="BackButton_Clicked"
                              />
-            <Picker ItemsSource="{Binding OrdenarPor}"
+            <Picker ItemsSource="{Binding ListaOrdenarPor}"
                     SelectedItem="{Binding Ordenar}"
                     Title="Ordenar Por"
                     HeightRequest="50"
@@ -28,18 +29,33 @@
                     Grid.Column="1">
                 
             </Picker>
+
+            <Button 
+                 TextColor="White"
+                 Text="FIN"
+                 CornerRadius="25"
+                 WidthRequest="50"
+                 HeightRequest="50"
+                 BackgroundColor="OrangeRed"
+                 Padding="5"
+                 Grid.Column="2"
+                Command="{Binding BuscarArticuloCommand}"
+                 />
         </Grid>
 
-
-        <SearchBar
-        x:Name="SearchBar"
-        Grid.Row="1"
-        Grid.Column="0"
-        Placeholder="Buscar Articulo"
-        />
+        
+            <SearchBar
+            x:Name="SearchBar"
+            Grid.Row="1"
+            Grid.Column="0"
+            Placeholder="{Binding Placeholder}"           
+            PlaceholderColor="Grey"
+            Text="{Binding Filtro}"
+            />
+        
         <CollectionView 
                 Margin="5"
-                x:Name="ListaArticulos"
+                x:Name="ListaArticulosCollection"
                 Grid.Row="2"
                 ItemsSource="{Binding ListaArticulos}">
             <CollectionView.ItemTemplate>
@@ -47,10 +63,17 @@
                     <SwipeView>
                         <SwipeView.RightItems>
                             <SwipeItems>
-                                <SwipeItem Text="Surtir"
+                                <SwipeItem 
+                                   IconImageSource="contract_edit_white.png"
+                                   BackgroundColor="Blue"
+                                   Command="{Binding Source={x:Reference ListaArticulosCollection}, Path=BindingContext.CapturarArticuloCommand}"
+                                   CommandParameter="{Binding .}">    
+                                </SwipeItem>
+                                <SwipeItem 
+                                   IconImageSource="check_circle_white.png"
                                    BackgroundColor="Green"
-                                   Command="{Binding Source={x:Reference ListaArticulos}, Path=SurtirPedidoCommand}"
-                                   CommandParameter="{Binding SKU}">
+                                   Command="{Binding Source={x:Reference ListaArticulosCollection}, Path=BindingContext.SurtirPedidoCommand}"
+                                   CommandParameter="{Binding .}">
                                 </SwipeItem>
                             </SwipeItems>
                         </SwipeView.RightItems>
@@ -64,7 +87,14 @@
                                 </HorizontalStackLayout>
                                 <Label Text="{Binding Descripcion}"/>
                                 <HorizontalStackLayout>
+                                    <Label Text="Pedido: "/>
                                     <Label Text="{Binding CantidadPedida} "/>
+                                    <Label Text=" "/>
+                                    <Label Text="{Binding Unidad}"/>
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout>
+                                    <Label Text="Surtido: "/>
+                                    <Label Text="{Binding CantidadSurtida} "/>
                                     <Label Text=" "/>
                                     <Label Text="{Binding Unidad}"/>
                                 </HorizontalStackLayout>
@@ -90,6 +120,7 @@
                  BackgroundColor="red"
                  Padding="5"
                  CornerRadius="10"
+                 Command="{Binding DepurarCommand}"
                  />
                 <ImageButton Source="remove_selection_white.png"
                  HeightRequest="40"
@@ -97,14 +128,16 @@
                  BackgroundColor="RoyalBlue"
                  Padding="5"
                  CornerRadius="10"
+                 Command="{Binding ContemplarCommand}"
                  />
-                    <Switch IsToggled="false"
+                    <Switch IsToggled="{Binding MostrarArtsSurtidos}" 
                     OnColor="Green"
                     ThumbColor="Red"
                     />      
                 </HorizontalStackLayout>
                 <HorizontalStackLayout Grid.Column="1" Spacing="-8">
-                    <CheckBox VerticalOptions="Center">
+                    <CheckBox VerticalOptions="Center"
+                              IsChecked="{Binding MostrarSurtidosEnCeros}">
                     </CheckBox>
                     <Label Text="Surtidos En Ceros"  VerticalOptions="Center" VerticalTextAlignment="Center"></Label>
                 </HorizontalStackLayout>
@@ -115,14 +148,14 @@
         <Button Text="+" 
                 BackgroundColor="DodgerBlue" 
                 TextColor="White"
-                CornerRadius="30"
-                WidthRequest="60"
-                HeightRequest="60"
+                CornerRadius="25"
+                WidthRequest="50"
+                HeightRequest="50"
                 HorizontalOptions="End"
                 VerticalOptions="End"
-                Margin="20"/>
-
-
+                Margin="20"
+                Command="{Binding BuscarArticuloCommand}"
+                />
     </Grid>
 
     
