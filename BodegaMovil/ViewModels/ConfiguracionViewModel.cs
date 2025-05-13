@@ -29,14 +29,14 @@ namespace BodegaMovil.ViewModels
             _probarConexion = probarConexion;
             _getTiendasHabilitadas = getTiendasHabilitadas;
 
-            CargarConfiguracionGuardada();
+            //CargarConfiguracionGuardada();
         }
 
         public async Task CargarConfiguracionGuardada()
         {
             //ApiUrl = await _settings.GetApiUrlAsync();
-            Cadena = await _settings.GetConnectionAsync();
-            var tiendaId = await _settings.GetStoreIdAsync();
+            Cadena = _settings.GetConnection();
+            var tiendaId = _settings.GetConnection();
 
             if(string.IsNullOrWhiteSpace(Cadena))
             {
@@ -78,7 +78,7 @@ namespace BodegaMovil.ViewModels
 
             if (resultado)
             {
-                await _settings.SetConnectionAsync(Cadena);
+                _settings.SetConnection(Cadena);
                 await CargarTiendasAsync();
             }
         }
@@ -114,8 +114,8 @@ namespace BodegaMovil.ViewModels
             if (ConexionExitosa && TiendaSeleccionada != null)
             {
                 //await _settings.SetApiUrlAsync(ApiUrl);
-                await _settings.SetConnectionAsync(Cadena);
-                await _settings.SetStoreIdAsync(TiendaSeleccionada.ID_Tienda.ToString());
+                _settings.SetConnection(Cadena);
+                _settings.SetStoreId(TiendaSeleccionada.ID_Tienda.ToString());
                 await Shell.Current.GoToAsync("..");
             }
             else

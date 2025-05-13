@@ -1,59 +1,98 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:vm="clr-namespace:BodegaMovil.ViewModels"
-             x:DataType="vm:ArticuloViewModel"
-             x:Class="BodegaMovil.Views.Controls.ArticuloControl">
-    <VerticalStackLayout Spacing="10" Padding="20">
+<ContentView
+    x:Class="BodegaMovil.Views.Controls.ArticuloControl"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:BodegaMovil.ViewModels"
+    x:DataType="vm:ArticuloViewModel">
+
+    <VerticalStackLayout Padding="20" Spacing="10">
+        <Label
+            FontAttributes="Bold"
+            FontSize="24"
+            HorizontalOptions="Center"
+            Text="Capturar Articulo"
+            VerticalOptions="Center" />
+
         <Frame Padding="10,2,10,2">
-            <HorizontalStackLayout >
-                <Label Text="SKU" VerticalOptions="Center" WidthRequest="80"></Label>
-                <Entry Text="{Binding Linea.SKU}" VerticalOptions="Center" IsReadOnly="True">
-                </Entry>
+            <HorizontalStackLayout>
+                <Label
+                    Text="SKU"
+                    VerticalOptions="Center"
+                    WidthRequest="80" />
+                <Entry
+                    IsReadOnly="True"
+                    Text="{Binding Linea.SKU}"
+                    VerticalOptions="Center" />
             </HorizontalStackLayout>
         </Frame>
 
         <Frame Padding="10,2,10,2">
             <HorizontalStackLayout>
-                <Label Text="Descripcion" VerticalOptions="Center" WidthRequest="80"></Label>
-                <Entry Text="{Binding Linea.Descripcion}" VerticalOptions="Center" IsReadOnly="True">
-                </Entry>
+                <Label
+                    Text="Descripcion"
+                    VerticalOptions="Center"
+                    WidthRequest="80" />
+                <Entry
+                    IsReadOnly="True"
+                    Text="{Binding Linea.Descripcion}"
+                    VerticalOptions="Center" />
             </HorizontalStackLayout>
         </Frame>
 
         <Frame Padding="10,2,10,2">
             <HorizontalStackLayout>
-                <Label Text="Area" VerticalOptions="Center" WidthRequest="80"></Label>
-                <Entry Text="{Binding Linea.DescripcionArea}" VerticalOptions="Center" IsReadOnly="True"></Entry>
+                <Label
+                    Text="Area"
+                    VerticalOptions="Center"
+                    WidthRequest="80" />
+                <Entry
+                    IsReadOnly="True"
+                    Text="{Binding Linea.DescripcionArea}"
+                    VerticalOptions="Center" />
             </HorizontalStackLayout>
         </Frame>
 
         <Frame Padding="10,2,10,2">
             <HorizontalStackLayout>
-                <Label Text="Unidad" VerticalOptions="Center" WidthRequest="80"></Label>
-                <Entry Text="{Binding Linea.Unidad}" VerticalOptions="Center" IsReadOnly="True"></Entry>
+                <Label
+                    Text="Unidad"
+                    VerticalOptions="Center"
+                    WidthRequest="80" />
+                <Entry
+                    IsReadOnly="True"
+                    Text="{Binding Linea.Unidad}"
+                    VerticalOptions="Center" />
             </HorizontalStackLayout>
         </Frame>
 
         <Frame Padding="10,2,10,2">
             <HorizontalStackLayout>
-                <Label Text="Cantidad Pedida" VerticalOptions="Center" WidthRequest="80"></Label>
-                <Entry Text="{Binding Linea.CantidadPedida}" VerticalOptions="Center" IsReadOnly="True"></Entry>
+                <Label
+                    Text="Cantidad Pedida"
+                    VerticalOptions="Center"
+                    WidthRequest="80" />
+                <Entry
+                    IsReadOnly="True"
+                    Text="{Binding Linea.CantidadPedida}"
+                    VerticalOptions="Center" />
             </HorizontalStackLayout>
         </Frame>
 
         <Frame Padding="10,2,10,2">
             <HorizontalStackLayout>
-                <Label Text="Cantidad Surtida" VerticalOptions="Center" WidthRequest="80"></Label>
+                <Label
+                    Text="Cantidad Surtida"
+                    VerticalOptions="Center"
+                    WidthRequest="80" />
                 <Entry Text="{Binding Linea.CantidadSurtida}" VerticalOptions="Center">
                     <Entry.Behaviors>
-                        <toolkit:TextValidationBehavior 
+                        <toolkit:TextValidationBehavior
                             x:Name="CantidadValidator"
                             Flags="ValidateOnAttaching,ValidateOnValueChanged"
-                            MinimumLength="1"
                             IsValid="{Binding IsCantidadSurtidaProvided}"
-                        />
+                            MinimumLength="1" />
                     </Entry.Behaviors>
                 </Entry>
             </HorizontalStackLayout>
@@ -61,23 +100,32 @@
 
         <Frame>
             <HorizontalStackLayout>
-                <Label Text="Tara" VerticalOptions="Center" WidthRequest="80"></Label>
+                <Label
+                    Text="Tara"
+                    VerticalOptions="Center"
+                    WidthRequest="80" />
                 <Entry Text="{Binding Linea.Contenedor}" VerticalOptions="Center">
                     <Entry.Behaviors>
-                        <toolkit:TextValidationBehavior 
+                        <toolkit:TextValidationBehavior
                             x:Name="ContenedorValidator"
                             Flags="ValidateOnAttaching,ValidateOnValueChanged"
-                            MinimumLength="1"
                             IsValid="{Binding IsContenedorProvided}"
-                        />
+                            MinimumLength="1" />
                     </Entry.Behaviors>
                 </Entry>
             </HorizontalStackLayout>
         </Frame>
 
-        
-       <Button x:Name="btnSave" Text="Guardar" VerticalOptions="Center"></Button>
-       <Button x:Name="btnCancel" Text="Cancelar" Command="{Binding GoToListaArticulosCommand}" VerticalOptions="Center"></Button>
-            
+
+        <Button
+            x:Name="btnSave"
+            Text="Guardar"
+            VerticalOptions="Center" />
+        <Button
+            x:Name="btnCancel"
+            Command="{Binding GoToListaArticulosCommand}"
+            Text="Cancelar"
+            VerticalOptions="Center" />
+
     </VerticalStackLayout>
 </ContentView>

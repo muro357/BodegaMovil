@@ -12,4 +12,12 @@ public partial class LoginPage : ContentPage
         this._loginViewModel = loginViewModel;
         this.BindingContext = this._loginViewModel;
     }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        this.UsuarioEntry.Text=string.Empty;
+        this.PasswordEntry.Text = string.Empty;
+        this.UsuarioEntry.Focus();
+    }
 }

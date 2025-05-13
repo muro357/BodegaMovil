@@ -4,7 +4,8 @@ using System.Text.Json;
 
 namespace BodegaMovil.Views;
 
-[QueryProperty(nameof(UserJSON), "user")]
+//[QueryProperty(nameof(UserJSON), "user")]
+[QueryProperty(nameof(Usuario), "Usuario")]
 [QueryProperty(nameof(Reset), "reset")]
 public partial class ListaPedidosPage : ContentPage
 {
@@ -26,16 +27,26 @@ public partial class ListaPedidosPage : ContentPage
         
         this.listaPedidosView = listaPedidosView;
         this.BindingContext = listaPedidosView;
+        
     }
 
-    public string UserJSON
-    { 
-		set
-		{
-            _userAutorized = JsonSerializer.Deserialize<UsuarioDTO>(value, _serializerOptions);
+    public UsuarioDTO Usuario
+    {
+        set
+        {
+            _userAutorized = value;
             LoadPedidos(_userAutorized);
         }
-	}
+    }
+
+ //   public string UserJSON
+ //   { 
+	//	set
+	//	{
+ //           _userAutorized = JsonSerializer.Deserialize<UsuarioDTO>(value, _serializerOptions);
+ //           LoadPedidos(_userAutorized);
+ //       }
+	//}
 
     public string Reset
     {
@@ -43,14 +54,16 @@ public partial class ListaPedidosPage : ContentPage
         {
             _reset = value;
             this.listaPedidosView.ListaPedidos.Clear();
-
-            
-
         }
     }
 
     private async void LoadPedidos(UsuarioDTO user)
     {
         await this.listaPedidosView.AsignarUsuario(user);
+    }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
     }
 }

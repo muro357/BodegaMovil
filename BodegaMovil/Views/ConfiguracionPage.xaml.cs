@@ -16,7 +16,7 @@ public partial class ConfiguracionPage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        await CargarConfiguracion();
+        //await CargarConfiguracion();
     }
 
     private async Task CargarConfiguracion()

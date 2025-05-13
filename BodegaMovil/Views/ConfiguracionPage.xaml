@@ -1,29 +1,34 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="BodegaMovil.Views.ConfiguracionPage"
-             xmlns:m="clr-namespace:BodegaMovil.CoreBusiness;assembly=BodegaMovil.CoreBusiness"
-             xmlns:vm="clr-namespace:BodegaMovil.ViewModels"
-             x:DataType="vm:ConfiguracionViewModel"
-             Title="Configuracion"
-             >
-    
+<ContentPage
+    x:Class="BodegaMovil.Views.ConfiguracionPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:m="clr-namespace:BodegaMovil.CoreBusiness;assembly=BodegaMovil.CoreBusiness"
+    xmlns:vm="clr-namespace:BodegaMovil.ViewModels"
+    Title="Configuracion"
+    x:DataType="vm:ConfiguracionViewModel"
+    Shell.BackgroundColor="#0A2E64"
+    Shell.TitleColor="White">
+
     <ScrollView>
         <VerticalStackLayout Padding="30" Spacing="20">
-            <Label Text="Configuración de conexión" FontSize="20" FontAttributes="Bold" />
+            <Label
+                FontAttributes="Bold"
+                FontSize="20"
+                Text="Configuración de conexión" />
 
-            <Entry Text="{Binding Cadena}" Placeholder="Server=10.0.2.2;Database=bd;User ID=admin;Password=12345678" />
+            <Entry Placeholder="Server=10.0.2.2;Database=bd;User ID=admin;Password=12345678" Text="{Binding Cadena}" />
 
-            <Button Text="Probar Conexión" Command="{Binding ProbarConexionCommand}" />
+            <Button Command="{Binding ProbarConexionCommand}" Text="Probar Conexión" />
             <Label Text="{Binding MensajeConexion}" TextColor="{Binding ConexionExitosa, Converter={StaticResource BoolToColorConverter}}" />
 
-            <Picker 
-                Title="Seleccionar tienda" 
-                ItemsSource="{Binding Tiendas}" 
-                ItemDisplayBinding="{Binding Descripcion}" 
+            <Picker
+                Title="Seleccionar tienda"
+                ItemDisplayBinding="{Binding Descripcion}"
+                ItemsSource="{Binding Tiendas}"
                 SelectedItem="{Binding TiendaSeleccionada}" />
 
-            <Button Text="Guardar Configuración" Command="{Binding GuardarCommand}" />
+            <Button Command="{Binding GuardarCommand}" Text="Guardar Configuración" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

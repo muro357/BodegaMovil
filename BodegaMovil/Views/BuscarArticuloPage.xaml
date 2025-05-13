@@ -1,44 +1,53 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="BodegaMovil.Views.BuscarArticuloPage"
-             xmlns:vm="clr-namespace:BodegaMovil.ViewModels"
-             xmlns:m="clr-namespace:BodegaMovil.UseCases.DTO;assembly=BodegaMovil.UseCases"
-             x:DataType="vm:BuscarArticuloViewModel"
-             Title="Buscar Articulo">
-    
-    <Grid Padding="5"
-          RowDefinitions="Auto,Auto,*"            
-    >
-        <Grid  
+<ContentPage
+    x:Class="BodegaMovil.Views.BuscarArticuloPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:m="clr-namespace:BodegaMovil.UseCases.DTO;assembly=BodegaMovil.UseCases"
+    xmlns:vm="clr-namespace:BodegaMovil.ViewModels"
+    Title="Buscar Articulo"
+    x:DataType="vm:BuscarArticuloViewModel"
+    Shell.BackgroundColor="#0A2E64"
+    Shell.TitleColor="White">
+
+    <Grid Padding="5" RowDefinitions="Auto,Auto,*">
+        <Grid
             Grid.Row="0"
-            Padding="20" 
-            ColumnDefinitions="Auto, Auto, Auto" 
+            Padding="20"
+            ColumnDefinitions="Auto, Auto, Auto"
             ColumnSpacing="20">
 
-            <Label Text="Buscar Por:"
-               Grid.Column="0" 
-               VerticalTextAlignment="Center"/>
+            <Label
+                Grid.Column="0"
+                Text="Buscar Por:"
+                VerticalTextAlignment="Center" />
 
-            <Grid RadioButtonGroup.GroupName="OptionsGroup"
-                        RadioButtonGroup.SelectedValue="{Binding TipoBusqueda}"
-                        Grid.Column="1"
-                        ColumnDefinitions="Auto,Auto"
-                        VerticalOptions="Center"
-                        ColumnSpacing="20">
+            <Grid
+                Grid.Column="1"
+                ColumnDefinitions="Auto,Auto"
+                ColumnSpacing="20"
+                RadioButtonGroup.GroupName="OptionsGroup"
+                RadioButtonGroup.SelectedValue="{Binding TipoBusqueda}"
+                VerticalOptions="Center">
 
-                <RadioButton Content="SKU" Value="SKU" Grid.Column="0"/>
-                <RadioButton Content="Descripcion" Value="Descripcion" Grid.Column="1"/>
-
+                <RadioButton
+                    Grid.Column="0"
+                    Content="SKU"
+                    Value="SKU" />
+                <RadioButton
+                    Grid.Column="1"
+                    Content="Descripcion"
+                    Value="Descripcion" />
             </Grid>
 
         </Grid>
 
-        <Grid Grid.Row="1" 
-              Padding="10" 
-              ColumnDefinitions="Auto, Auto" 
-              ColumnSpacing="10">
-             <!--<SearchBar
+        <Grid
+            Grid.Row="1"
+            Padding="10"
+            ColumnDefinitions="Auto, Auto"
+            ColumnSpacing="10">
+            <!--<SearchBar
                     Grid.Column="0"
                     x:Name="SearchBar"
                     Placeholder="Escriba el filtro"
@@ -46,56 +55,59 @@
                     Text="{Binding Filtro}" WidthRequest="290"
                     />-->
             <Entry
-                Grid.Column="0"
                 x:Name="SearchBar"
+                Grid.Column="0"
                 Placeholder="Escriba el filtro"
                 PlaceholderColor="Grey"
-                Text="{Binding Filtro}" WidthRequest="290"
-                />
-            <ImageButton Grid.Column="1"
-                    Source="search_48dp_white.png"
-                    Command="{Binding BuscarCommand}"
-                    CommandParameter="{Binding Filtro}"
-                    Margin="10,0,0,0"
-                    HeightRequest="40"
-                    WidthRequest="50"
-                    BackgroundColor="RoyalBlue"
-                    CornerRadius="10"
-                    />
+                Text="{Binding Filtro}"
+                WidthRequest="290" />
+            <ImageButton
+                Grid.Column="1"
+                Margin="10,0,0,0"
+                BackgroundColor="RoyalBlue"
+                Command="{Binding BuscarCommand}"
+                CommandParameter="{Binding Filtro}"
+                CornerRadius="10"
+                HeightRequest="40"
+                Source="search_48dp_white.png"
+                WidthRequest="50" />
         </Grid>
 
-        <CollectionView 
-            Margin="5"
+        <CollectionView
             x:Name="ListaArticulosCollection"
             Grid.Row="2"
-            ItemsSource="{Binding ListaArticulos}"
-            >
+            Margin="5"
+            ItemsSource="{Binding ListaArticulos}">
 
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="m:ArticuloDTO">
                     <SwipeView>
                         <SwipeView.RightItems>
                             <SwipeItems>
-                                <SwipeItem 
-                       IconImageSource="check_circle_white.png"
-                       BackgroundColor="Green"
-                       Command="{Binding Source={x:Reference ListaArticulosCollection}, Path=BindingContext.GoToAgregarArticuloCommand}"
-                       CommandParameter="{Binding .}">
-                                </SwipeItem>
+                                <SwipeItem
+                                    BackgroundColor="Green"
+                                    Command="{Binding Source={x:Reference ListaArticulosCollection}, Path=BindingContext.GoToAgregarArticuloCommand}"
+                                    CommandParameter="{Binding .}"
+                                    IconImageSource="check_circle_white.png" />
                             </SwipeItems>
                         </SwipeView.RightItems>
 
-                        <Frame Padding="10" Margin="5" BorderColor="Gray">
+                        <Frame
+                            Margin="5"
+                            Padding="10"
+                            BorderColor="Gray">
                             <VerticalStackLayout>
                                 <HorizontalStackLayout>
-                                    <Label Text="SKU: "/>
-                                    <Label Text="{Binding SKU}" FontAttributes="Bold" VerticalOptions="Center"/>
+                                    <Label Text="SKU: " />
+                                    <Label
+                                        FontAttributes="Bold"
+                                        Text="{Binding SKU}"
+                                        VerticalOptions="Center" />
                                 </HorizontalStackLayout>
                                 <HorizontalStackLayout>
-                                    <Label Text="Descripcion: "/>
-                                    <Label Text="{Binding Descripcion}"/>
+                                    <Label Text="Descripcion: " />
+                                    <Label Text="{Binding Descripcion}" />
                                 </HorizontalStackLayout>
-              
                             </VerticalStackLayout>
                         </Frame>
                     </SwipeView>

@@ -1,61 +1,79 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:vm="clr-namespace:BodegaMovil.ViewModels"
-             xmlns:m="clr-namespace:BodegaMovil.CoreBusiness;assembly=BodegaMovil.CoreBusiness"
-             x:Class="BodegaMovil.Views.LoginPage"
-             x:DataType="vm:LoginViewModel"
-             BackgroundColor="#0A2E64"
-             Title="Surtido">
+<ContentPage
+    x:Class="BodegaMovil.Views.LoginPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:m="clr-namespace:BodegaMovil.CoreBusiness;assembly=BodegaMovil.CoreBusiness"
+    xmlns:vm="clr-namespace:BodegaMovil.ViewModels"
+    Title="Surtido"
+    x:DataType="vm:LoginViewModel"
+    BackgroundColor="#0A2E64"
+    Shell.NavBarIsVisible="False">
 
     <!--<ContentPage.BindingContext>
         <vm:LoginViewModel />
-    </ContentPage.BindingContext>--> 
+    </ContentPage.BindingContext>-->
 
     <VerticalStackLayout Padding="30" Spacing="20">
-        <!-- Logotipo -->
-        <Image Source="logoferre1.png"
-               HeightRequest="150"
-               HorizontalOptions="Center" />
+        <Label
+            FontAttributes="Bold"
+            FontSize="30"
+            HorizontalOptions="Center"
+            Text="BODEGA MOVIL"
+            TextColor="White"
+            VerticalOptions="Center" />
 
-        <!-- Campo Usuario -->
-        <Entry Placeholder="Usuario"
-               Text="{Binding Acceso.usuario}"
-               PlaceholderColor="LightGray"
-               TextColor="White"
-               BackgroundColor="#1B4374"
-               Margin="0,10,0,0"
-               HeightRequest="50"
-               HorizontalOptions="Fill" />
+        <!--  Logotipo  -->
+        <Image
+            HeightRequest="150"
+            HorizontalOptions="Center"
+            Source="logoferre1.png" />
 
-        <!-- Campo Contraseña -->
-        <Entry Placeholder="Contraseña"
-               Text="{Binding Acceso.password}"
-               PlaceholderColor="LightGray"
-               TextColor="White"
-               BackgroundColor="#1B4374"
-               IsPassword="True"
-               Margin="0,10,0,0"
-               HeightRequest="50"
-               HorizontalOptions="Fill" />
+        <!--  Campo Usuario  -->
+        <Entry
+            x:Name="UsuarioEntry"
+            Margin="0,10,0,0"
+            BackgroundColor="#1B4374"
+            HeightRequest="50"
+            HorizontalOptions="Fill"
+            Placeholder="Usuario"
+            PlaceholderColor="LightGray"
+            Text="{Binding Acceso.usuario}"
+            TextColor="White" />
 
-        <!-- Botón de Inicio de Sesión -->
-        <Button Text="Iniciar Sesión"
-                Command="{Binding LoginCommand}"
-                BackgroundColor="#FFD700"
-                TextColor="Black"
-                CornerRadius="10"
-                HeightRequest="50"
-                FontAttributes="Bold"
-                HorizontalOptions="Fill" />
+        <!--  Campo Contraseña  -->
+        <Entry
+            x:Name="PasswordEntry"
+            Margin="0,10,0,0"
+            BackgroundColor="#1B4374"
+            HeightRequest="50"
+            HorizontalOptions="Fill"
+            IsPassword="True"
+            Placeholder="Contraseña"
+            PlaceholderColor="LightGray"
+            Text="{Binding Acceso.password}"
+            TextColor="White" />
 
-        <!-- Logotipo -->
-        <ImageButton Source="settings_32dp_black.png"
+        <!--  Botón de Inicio de Sesión  -->
+        <Button
             BackgroundColor="#FFD700"
-            HeightRequest="33"
-            WidthRequest="32"
+            Command="{Binding LoginCommand}"
+            CornerRadius="10"
+            FontAttributes="Bold"
+            HeightRequest="50"
+            HorizontalOptions="Fill"
+            Text="Iniciar Sesión"
+            TextColor="Black" />
+
+        <!--  Logotipo  -->
+        <ImageButton
+            BackgroundColor="#FFD700"
             Command="{Binding GoToConfiguracionCommand}"
-            HorizontalOptions="Center" />
-        
+            HeightRequest="33"
+            HorizontalOptions="Center"
+            MaximumWidthRequest="100"
+            Source="settings_32dp_black.png"
+            WidthRequest="32" />
+
     </VerticalStackLayout>
 </ContentPage>

@@ -144,9 +144,6 @@ namespace BodegaMovil.ViewModels
             if (pedido == null)
                 return;
 
-            //var json = JsonSerializer.Serialize(_user);
-            //var ped = JsonSerializer.Serialize(pedido);
-
             await Shell.Current.GoToAsync($"{nameof(ListaArticulosPage)}?folio={pedido.Folio}&id_area_surtir={pedido.ID_Area}");
         }
     }

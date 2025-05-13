@@ -25,6 +25,7 @@ namespace BodegaMovil.UseCases
         public async Task<PedidoDetalleDTO> ExecuteAsync(PedidoDTO pedidoDTO, Articulo art, float? cantidad, FormaDeCalculo formaDeCalculo)
         {
             var pedido = _mapa.GetEntity<PedidoDTO, Pedido>(pedidoDTO);
+            pedido.Detalles = _mapa.GetEntity<List<PedidoDetalleDTO>, List<PedidoDetalle>>(pedidoDTO.PedidoDetalle);
 
             if (pedidoDTO.ID_AreaSurtir != art.ID_Area)
                 throw new InvalidOperationException("El articulo no es de la misma area del pedido");

@@ -1,45 +1,51 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:m="clr-namespace:BodegaMovil.CoreBusiness;assembly=BodegaMovil.CoreBusiness"
-             xmlns:vm="clr-namespace:BodegaMovil.ViewModels"
-             x:Class="BodegaMovil.Views.ConfiguracionAccesoPage"
-             x:DataType="vm:ConfiguracionAccesoViewModel"
-             
-             Title="Acceso de Configuracion">
+<ContentPage
+    x:Class="BodegaMovil.Views.ConfiguracionAccesoPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:m="clr-namespace:BodegaMovil.CoreBusiness;assembly=BodegaMovil.CoreBusiness"
+    xmlns:vm="clr-namespace:BodegaMovil.ViewModels"
+    Title="Acceso de Configuracion"
+    x:DataType="vm:ConfiguracionAccesoViewModel"
+    Shell.BackgroundColor="#0A2E64"
+    Shell.TitleColor="White">
     <VerticalStackLayout Padding="30" Spacing="20">
-        <Entry Placeholder="Usuario"
-           x:Name="Usuario"
-           Text="{Binding User}"
-           PlaceholderColor="LightGray"
-           Margin="0,10,0,0"
-           HeightRequest="50"
-           HorizontalOptions="Fill" />
+        <Entry
+            x:Name="Usuario"
+            Margin="0,10,0,0"
+            HeightRequest="50"
+            HorizontalOptions="Fill"
+            Placeholder="Usuario"
+            PlaceholderColor="LightGray"
+            Text="{Binding User}" />
 
-        <!-- Campo Contraseña -->
-        <Entry Placeholder="Contraseña"
-           x:Name="Password"
-           Text="{Binding Password}"
-           PlaceholderColor="LightGray"
-           IsPassword="True"
-           Margin="0,10,0,0"
-           HeightRequest="50"
-           HorizontalOptions="Fill" />
+        <!--  Campo Contraseña  -->
+        <Entry
+            x:Name="Password"
+            Margin="0,10,0,0"
+            HeightRequest="50"
+            HorizontalOptions="Fill"
+            IsPassword="True"
+            Placeholder="Contraseña"
+            PlaceholderColor="LightGray"
+            Text="{Binding Password}" />
 
-        <!-- Botón de Inicio de Sesión -->
-        <Button Text="Acceder"
+        <!--  Botón de Inicio de Sesión  -->
+        <Button
             Command="{Binding AccederCommand}"
             CornerRadius="10"
-            HeightRequest="50"
             FontAttributes="Bold"
-            HorizontalOptions="Fill" />
+            HeightRequest="50"
+            HorizontalOptions="Fill"
+            Text="Acceder" />
 
-        <Button Text="Cancelar"
+        <Button
             Clicked="Button_Clicked"
             CornerRadius="10"
-            HeightRequest="50"
             FontAttributes="Bold"
-            HorizontalOptions="Fill" />
+            HeightRequest="50"
+            HorizontalOptions="Fill"
+            Text="Cancelar" />
     </VerticalStackLayout>
-    
+
 </ContentPage>

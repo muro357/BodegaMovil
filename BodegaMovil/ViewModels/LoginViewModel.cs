@@ -68,13 +68,25 @@ namespace BodegaMovil.ViewModels
             var user = await _loguearse.ExecuteAsync(_acceso);
 
             if (user != null)
-            {
-                var json = JsonSerializer.Serialize(user);
-
+            {   //Autenticación exitosa, almacena el usuario en el SecureStorage
                 await SecureStorage.Default.SetAsync("user", user.usuario);
+                await SecureStorage.Default.SetAsync("nombreUser", user.Nombre);
+
                 
 
-                await Shell.Current.GoToAsync($"{nameof(ListaPedidosPage)}?user={json}");
+                // Luego recarga el ViewModel del AppShell
+                if (Shell.Current is AppShell appShell &&
+                    appShell.BindingContext is AppShellViewModel vm)
+                {
+                    await vm.CargarDatosUsuarioAsync();
+                }
+
+
+                await Shell.Current.GoToAsync($"//{nameof(ListaPedidosPage)}", 
+                    new Dictionary<string, object>
+                    {
+                        { "Usuario", user } 
+                    });
             }
             else
                 await Application.Current.MainPage.DisplayAlert("Error", "El usuario y/o password es incorrecto", "OK");

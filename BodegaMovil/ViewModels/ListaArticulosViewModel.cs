@@ -5,13 +5,10 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using BodegaMovil.Views;
-//using MetalPerformanceShadersGraph;
 using BodegaMovil.CoreBusiness.Enums;
-using Microsoft.Maui;
 using System.Text.Json;
-using Microsoft.Maui.Controls.PlatformConfiguration;
-using BodegaMovil.Services.Settings.Preferences;
 using BodegaMovil.UseCases.Interfaces.Services;
+
 
 namespace BodegaMovil.ViewModels
 {
@@ -25,7 +22,7 @@ namespace BodegaMovil.ViewModels
         private readonly ISetting _settings;
         private readonly FinalizarSurtidoUseCase _finalizar;
         private ObservableCollection<PedidoDetalleDTO> _pedidosDetalle;
-        private PedidoDTO _pedido;
+        //private PedidoDTO _pedido;
         private List<string> _listaOrdenarPor;
         private bool _mostrarArtsSurtidos;
         private bool _mostrarSurtidosCeros;
@@ -90,6 +87,10 @@ namespace BodegaMovil.ViewModels
             set 
             { 
                 SetProperty(ref _mostrarArtsSurtidos, value);
+
+                TituloListaArts = _mostrarArtsSurtidos ? "Surtidos" : "Por Surtir";
+
+
                 ShowArticulos();
             }
         }
@@ -114,6 +115,15 @@ namespace BodegaMovil.ViewModels
                 ShowArticulos(_filtro.ToUpper());
             }
         }
+
+        [ObservableProperty]
+        private PedidoDTO _pedido;
+
+        [ObservableProperty]
+        private string tituloListaArts = "Por Surtir";
+
+        
+
         public string Tara { get => _tara; }
         public async Task AsignarTara(string tara)
         {
@@ -123,8 +133,8 @@ namespace BodegaMovil.ViewModels
         public async Task LoadArticulos(string folio, int id_area_surtir)
         {
             var id_cedis = int.Parse(await _settings.GetStoreIdAsync());
-            _pedido = await _getPedido.ExecuteAsync(id_cedis, folio, id_area_surtir);     
-            
+            Pedido = await _getPedido.ExecuteAsync(id_cedis, folio, id_area_surtir);   
+
             //Se asignó el dato en LoginViewModel
             _user = await SecureStorage.Default.GetAsync("user");
 
@@ -133,19 +143,19 @@ namespace BodegaMovil.ViewModels
 
         public async Task ShowArticulos(string criterio = "")
         {
-            if (_pedido == null)
+            if (Pedido == null)
                 return;
 
-            if (_pedido.PedidoDetalle == null && _pedido.PedidoDetalle.Count == 0)
+            if (Pedido.PedidoDetalle == null && Pedido.PedidoDetalle.Count == 0)
                 return;
 
             _pedidosDetalle.Clear();
 
-            _pedido.SurtidoPor = _user; //Se asignó en LoadArticulos
-            _pedido.Ordenar = _ordenarPor;
-            _pedido.MostrarSurtidosEnCeros = _mostrarSurtidosCeros;
+            Pedido.SurtidoPor = _user; //Se asignó en LoadArticulos
+            Pedido.Ordenar = _ordenarPor;
+            Pedido.MostrarSurtidosEnCeros = _mostrarSurtidosCeros;
 
-            var lista = _mostrarArtsSurtidos ? _pedido.ArticulosSurtidos : _pedido.ArticulosPorSurtir;
+            var lista = _mostrarArtsSurtidos ? Pedido.ArticulosSurtidos : Pedido.ArticulosPorSurtir;
 
             if (!string.IsNullOrWhiteSpace(criterio))
             {
@@ -162,7 +172,7 @@ namespace BodegaMovil.ViewModels
         public async Task SurtirPedido(PedidoDetalleDTO item)
         {
             item.CantidadSurtida = item.CantidadPedida;
-            var res = await _surtir.ExecuteAsync(_pedido, item);
+            var res = await _surtir.ExecuteAsync(Pedido, item);
 
             if (!res)
             {
@@ -177,7 +187,7 @@ namespace BodegaMovil.ViewModels
         [RelayCommand]
         public async Task CapturarArticulo(PedidoDetalleDTO item)
         {
-            var pedido = JsonSerializer.Serialize(_pedido, _serializerOptions);
+            var pedido = JsonSerializer.Serialize(Pedido, _serializerOptions);
             var linea = JsonSerializer.Serialize(item, _serializerOptions);
             await Shell.Current.GoToAsync($"{nameof(CapturaArticuloPage)}?pedido={pedido}&linea={linea}");
         }
@@ -185,7 +195,7 @@ namespace BodegaMovil.ViewModels
         [RelayCommand]
         public async Task BuscarArticulo()
         {
-            var pedido = JsonSerializer.Serialize(_pedido, _serializerOptions);
+            var pedido = JsonSerializer.Serialize(Pedido, _serializerOptions);
             await Shell.Current.GoToAsync($"{nameof(BuscarArticuloPage)}?pedido={pedido}");
         }
 
@@ -193,74 +203,95 @@ namespace BodegaMovil.ViewModels
         [RelayCommand]
         public async Task Depurar()
         {
-            //await depurar.ExecuteAsync(pedido);
             var seleccionados = _pedidosDetalle.Where(p => p.Elegido).Select(p => p.SKU).ToList();
 
-            if (seleccionados.Count > 0)
-            {
-                var ok = await _depurar.ExecuteAsync(_pedido);
-
-                if (ok)
-                {
-                    string mensaje = seleccionados.Any()
-                        ? $"Seleccionados:\n{string.Join("\n", seleccionados)}"
-                        : "Ningún producto seleccionado.";
-
-                    await Application.Current.MainPage.DisplayAlert("Depurar", mensaje, "OK");
-                }
-                else
-                {
-                    await Application.Current.MainPage.DisplayAlert("Depurar", "Error al depurar", "OK");
-                }
-            }
-            else
+            if (seleccionados.Count == 0)
             {
                 await Application.Current.MainPage.DisplayAlert("Depurar", "No hay productos seleccionados", "OK");
                 return;
             }
-                
+
+            bool confirmar = await Application.Current.MainPage.DisplayAlert(
+               "Aviso", "¿Esta seguro de depurar?",
+               "Sí", "No");
+
+            if (confirmar)
+            {
+                try
+                {
+                    await _depurar.ExecuteAsync(Pedido);
+                    await ShowArticulos();
+                    await Application.Current.MainPage.DisplayAlert("Depurar", "Se ha depurado", "OK");
+                }
+                catch (Exception ex)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", $"Error al depurar: {ex.Message}", "OK");
+                }
+            }  
         }
 
         [RelayCommand]
         public async Task Contemplar()
         {
-            var porSurtir = _pedido.ArticulosPorSurtir.Count();
-
-            if (porSurtir > 0)
-            {
-                await _contemplar.ExecuteAsync(_pedido);
-            }
-            else
+            var porSurtir = Pedido.ArticulosPorSurtir.Count();
+            if (porSurtir == 0)
             {
                 await Application.Current.MainPage.DisplayAlert("Contemplar", "No hay artículos por surtir", "OK");
+                return;
+            }
+
+            bool confirmar = await Application.Current.MainPage.DisplayAlert(
+                "Aviso", "¿Esta seguro de contemplar existencias?",
+                "Sí", "No");
+
+            if (confirmar)
+            {
+                try
+                {
+                    await _contemplar.ExecuteAsync(Pedido);
+                    await ShowArticulos();
+                    await Application.Current.MainPage.DisplayAlert("Aviso", "Se ha contemplado", "OK");
+                }
+                catch (Exception ex)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", $"Error al contemplar existencias: {ex.Message}", "OK");
+                }
             }
         }
 
-        [RelayCommand]
-        public async Task Finalizar()
-        {
-            var porSurtir = _pedido.ArticulosPorSurtir.Count();
+        //[RelayCommand]
+        //public async Task Finalizar()
+        //{
+        //    var porSurtir = _pedido.ArticulosPorSurtir.Count();
 
-            if(porSurtir > 0)
-            {
-                var mensaje = $"No se puede finalizar el pedido, hay {porSurtir} artículos por surtir.";
-                await Application.Current.MainPage.DisplayAlert("Finalizar", mensaje, "OK");
-            }
-            else
-            {
-                var res = await _finalizar.ExecuteAsync(_pedido);
-                if (res)
-                {
-                    await Application.Current.MainPage.DisplayAlert("Finalizar", "Pedido finalizado", "OK");
-                    await Shell.Current.GoToAsync($"{nameof(ListaPedidosPage)}?reset=1");
-                }
-                else
-                {
-                    await Application.Current.MainPage.DisplayAlert("Finalizar", "Error al finalizar el pedido", "OK");
-                }
-            }
+        //    if(porSurtir > 0)
+        //    {
+        //        var mensaje = $"No se puede finalizar el pedido, hay {porSurtir} artículos por surtir.";
+        //        await Application.Current.MainPage.DisplayAlert("Finalizar", mensaje, "OK");
+        //    }
+        //    else
+        //    {
+        //        bool confirmar = await Application.Current.MainPage.DisplayAlert(
+        //        "Aviso",
+        //        "¿Desea Finalizar El Surtido?, Si es Pedido Sugerido no podra acceder de nuevo a este pedido; si es Pedido Especial mientras todos los Surtidores del pedido no le den Finalizar podra seguir teniendo acceso",
+        //        "Sí", "No");
+
+        //        if (confirmar)
+        //        {
+        //            var res = await _finalizar.ExecuteAsync(_pedido);
+        //            if (res)
+        //            {
+        //                await Application.Current.MainPage.DisplayAlert("Finalizar", "Pedido finalizado", "OK");
+        //                await Shell.Current.GoToAsync($"{nameof(ListaPedidosPage)}?reset=1");
+        //            }
+        //            else
+        //            {
+        //                await Application.Current.MainPage.DisplayAlert("Finalizar", "Error al finalizar el pedido", "OK");
+        //            }
+        //        }
+        //    }
 
 
-        }
+        //}
     }
 }

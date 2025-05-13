@@ -6,40 +6,22 @@ using System.Text.Json;
 
 namespace BodegaMovil.Views;
 
-//[QueryProperty(nameof(Pedido),"pedido")]
 [QueryProperty(nameof(Folio), "folio")]
 [QueryProperty(nameof(ID_AreaSurtir), "id_area_surtir")]
 public partial class ListaArticulosPage : ContentPage
 {
 	public ListaArticulosPage(ListaArticulosViewModel listaArticulos)
 	{
-        //_serializerOptions = new JsonSerializerOptions()
-        //{
-        //    PropertyNameCaseInsensitive = true,
-        //    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-        //    WriteIndented = true,
-        //};
-
         InitializeComponent();
         _listaArticulos = listaArticulos;
         this.BindingContext = _listaArticulos;
     }
 
-    //private readonly JsonSerializerOptions _serializerOptions;
     private string tara;
     //private ShowPedidoDTO _pedido;
     private readonly ListaArticulosViewModel _listaArticulos;
     private string _folio;
     private int _id_areaSurtir;
-
-
-    //public string Pedido
-    //{
-    //    set
-    //    {
-    //        _pedido = JsonSerializer.Deserialize<ShowPedidoDTO>(value, _serializerOptions);
-    //    }
-    //}
 
     public string Folio
     {
@@ -66,14 +48,11 @@ public partial class ListaArticulosPage : ContentPage
         }
     }
 
-
     public string Tara
     {
         get => tara;
         set => tara = value;
     }
-
-    
 
     protected override async void OnAppearing()
     {
@@ -94,9 +73,4 @@ public partial class ListaArticulosPage : ContentPage
         await _listaArticulos.AsignarTara(tara);
     }
 
-   
-    private void BackButton_Clicked(object sender, EventArgs e)
-    {
-        Shell.Current.GoToAsync("..");
-    }
 }

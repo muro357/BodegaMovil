@@ -1,66 +1,89 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:m="clr-namespace:BodegaMovil.UseCases.DTO;assembly=BodegaMovil.UseCases"
-             xmlns:vm="clr-namespace:BodegaMovil.ViewModels"
-             x:DataType="vm:ListaPedidosViewModel"
-             x:Class="BodegaMovil.Views.ListaPedidosPage"
-             Title="Lista de Pedidos">
+<ContentPage
+    x:Class="BodegaMovil.Views.ListaPedidosPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:m="clr-namespace:BodegaMovil.UseCases.DTO;assembly=BodegaMovil.UseCases"
+    xmlns:views="clr-namespace:BodegaMovil.Views.Controls"
+    xmlns:vm="clr-namespace:BodegaMovil.ViewModels"
+    Title="Lista de Pedidos"
+    x:DataType="vm:ListaPedidosViewModel"
+    Shell.BackgroundColor="#0A2E64"
+    Shell.TitleColor="White">
 
+    <Grid
+        Padding="5"
+        ColumnDefinitions="*"
+        RowDefinitions="50,*">
 
-    
-    <Grid 
-    Padding="5"
-    RowDefinitions="50,*"
-    ColumnDefinitions="*">
+        <Grid
+            Padding="5"
+            ColumnDefinitions="*"
+            RowDefinitions="Auto,50,*">
 
-        <Grid ColumnDefinitions="*, *, Auto">
-            <Picker ItemsSource="{Binding ListaTiendas}"
-                    ItemDisplayBinding="{Binding DescripcionTienda}"
-                    SelectedItem="{Binding TiendaSeleccionada}"
-                    Title="Seleccionar Tienda"
-                    Grid.Column="0"/>
-
-            <Picker ItemsSource="{Binding ListaAreas}"
-                    ItemDisplayBinding="{Binding DescripcionArea}"
-                    SelectedItem="{Binding AreaSeleccionada}"
-                    Title="Seleccionar Área"
-                    Grid.Column="1"/>
-
-            <ImageButton 
-                    Command="{Binding ConsultarCommand}"
-                    Source="search_48dp_white.png"
-                    HeightRequest="40"
-                    WidthRequest="50"
-                    BackgroundColor="RoyalBlue"
-                    Grid.Column="2"
-                    CornerRadius="10"
-                />
+            <!--  1. Agrega un focus trap invisible para android 8 para evitar que se abran en automatico los picker  -->
+            <Entry
+                x:Name="FocusTrapEntry"
+                HeightRequest="1"
+                IsVisible="true"
+                Text=""
+                WidthRequest="1" />
         </Grid>
-                           
 
-        <CollectionView x:Name="ListaPedidosCollection"
-                        Grid.Row="1"
-                        ItemsSource="{Binding ListaPedidos}">
+        <Grid Grid.Row="0" ColumnDefinitions="*, *, Auto">
+            <Picker
+                x:Name="cboTiendas"
+                Title="Seleccionar Tienda"
+                Grid.Column="0"
+                ItemDisplayBinding="{Binding DescripcionTienda}"
+                ItemsSource="{Binding ListaTiendas}"
+                SelectedItem="{Binding TiendaSeleccionada}" />
+
+            <Picker
+                x:Name="cboAreas"
+                Title="Seleccionar Área"
+                Grid.Column="1"
+                ItemDisplayBinding="{Binding DescripcionArea}"
+                ItemsSource="{Binding ListaAreas}"
+                SelectedItem="{Binding AreaSeleccionada}" />
+
+            <ImageButton
+                x:Name="btnConsultar"
+                Grid.Column="2"
+                BackgroundColor="RoyalBlue"
+                Command="{Binding ConsultarCommand}"
+                CornerRadius="10"
+                HeightRequest="40"
+                Source="search_48dp_white.png"
+                WidthRequest="50" />
+        </Grid>
+
+        <CollectionView
+            x:Name="ListaPedidosCollection"
+            Grid.Row="1"
+            ItemsSource="{Binding ListaPedidos}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="m:ShowPedidoDTO">
                     <SwipeView>
                         <SwipeView.RightItems>
                             <SwipeItems>
-                                <SwipeItem Text="Surtir"
-                                           BackgroundColor="Green"
-                                           Command="{Binding Source={x:Reference ListaPedidosCollection}, Path=BindingContext.GoToListaArticulosCommand}"
-                                           CommandParameter="{Binding .}">
-                                </SwipeItem>
+                                <SwipeItem
+                                    BackgroundColor="Green"
+                                    Command="{Binding Source={x:Reference ListaPedidosCollection}, Path=BindingContext.GoToListaArticulosCommand}"
+                                    CommandParameter="{Binding .}"
+                                    Text="Surtir" />
                             </SwipeItems>
                         </SwipeView.RightItems>
 
-                        <Frame Padding="10" Margin="5" BorderColor="Gray">
+                        <Frame
+                            Margin="5"
+                            Padding="10"
+                            BorderColor="Gray">
                             <VerticalStackLayout>
-                                <Label Text="{Binding Folio}" FontAttributes="Bold"/>
-                                <Label Text="{Binding DescripcionTienda}"/>
-                                <Label Text="{Binding DescripcionArea}"/>
-                                <Label Text="{Binding Tipo}"/>
+                                <Label FontAttributes="Bold" Text="{Binding Folio}" />
+                                <Label Text="{Binding DescripcionTienda}" />
+                                <Label Text="{Binding DescripcionArea}" />
+                                <Label Text="{Binding Tipo}" />
                             </VerticalStackLayout>
                         </Frame>
                     </SwipeView>

@@ -1,4 +1,7 @@
-﻿namespace BodegaMovil
+﻿
+using BodegaMovil.Views;
+
+namespace BodegaMovil
 {
     public partial class App : Application
     {
@@ -7,6 +10,9 @@
             InitializeComponent();
 
             MainPage = new AppShell();
+
+            
+            
         }
     }
 }

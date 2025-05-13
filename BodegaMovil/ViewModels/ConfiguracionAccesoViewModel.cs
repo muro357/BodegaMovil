@@ -12,13 +12,7 @@ namespace BodegaMovil.ViewModels
 {
     public partial class ConfiguracionAccesoViewModel : ObservableObject
     {
-        
-        
-        public ConfiguracionAccesoViewModel()
-        {
-            
-            
-        }
+        public ConfiguracionAccesoViewModel(){}
 
         [ObservableProperty]
         private string _user;
@@ -41,7 +35,5 @@ namespace BodegaMovil.ViewModels
             else
                 await Application.Current.MainPage.DisplayAlert("Error", "El usuario y/o password es incorrecto", "OK");
         }
-
     }
-   
 }

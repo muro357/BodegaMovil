@@ -50,10 +50,10 @@ namespace BodegaMovil.CoreBusiness
                 throw new InvalidOperationException("Ya esta agregado");
             }
 
-            if(Tipo == "Sugerido" && (ID_Area != art.ID_Area))
-            {
-                throw new InvalidOperationException("En un pedido sugerido solo puede agregar articulos de la misma area");
-            }
+            //if(Tipo == "Sugerido" && (ID_Area != art.ID_Area))
+            //{
+            //    throw new InvalidOperationException("En un pedido sugerido solo puede agregar articulos de la misma area");
+            //}
 
             var newItem = new PedidoDetalle(art, cantidad, formaCalc, this.Consecutivo,this.ID_Tienda,this.Folio, this.Tipo);
 

@@ -228,7 +228,7 @@ namespace BodegaMovil.Plugins.DataStore.MySQL
                     Contenedor = CASE 
                         " + string.Join(" ", list.Select((d, index) => $"WHEN SKU = @SKU{index} THEN @Contenedor{index}")) + @"
                         ELSE Contenedor 
-                    END
+                    END,
                     SurtidoPor = CASE 
                         " + string.Join(" ", list.Select((d, index) => $"WHEN SKU = @SKU{index} THEN @SurtidoPor{index}")) + @"
                         ELSE SurtidoPor 

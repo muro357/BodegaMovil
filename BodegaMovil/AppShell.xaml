@@ -3,14 +3,118 @@
     x:Class="BodegaMovil.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:BodegaMovil"
     xmlns:mvvm="clr-namespace:BodegaMovil.Views"
-    Shell.FlyoutBehavior="Disabled"
-    Title="BodegaMovil">
+    xmlns:sys="clr-namespace:System;assembly=netstandard"
+    xmlns:views="clr-namespace:BodegaMovil.Views"
+    xmlns:vm="clr-namespace:BodegaMovil.ViewModels"
+    Title="BodegaMovil"
+    FlyoutBehavior="Flyout"
+    FlyoutHeaderBehavior="Fixed"
+    Shell.TabBarIsVisible="False">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate mvvm:LoginPage}"
-        Route="LoginPage" />
+    <Shell.BindingContext>
+        <vm:AppShellViewModel />
+    </Shell.BindingContext>
+
+    <Shell.FlyoutHeader>
+        <Grid
+            Padding="0,10"
+            BackgroundColor="#1B4374"
+            HeightRequest="220">
+
+            <Label
+                FontAttributes="Bold"
+                FontSize="28"
+                HorizontalOptions="Center"
+                Text="Bodega Movil"
+                TextColor="White"
+                VerticalOptions="Start" />
+
+            <Image
+                HeightRequest="200"
+                HorizontalOptions="Center"
+                Source="logoferre1.png"
+                VerticalOptions="Center"
+                WidthRequest="200" />
+            <!--  Nombre del usuario  -->
+            <Label
+                x:Name="NombreUsuarioLabel"
+                Margin="0,10,0,0"
+                FontAttributes="Italic"
+                FontSize="18"
+                HorizontalOptions="Center"
+                Text="{Binding NombreUsuario}"
+                TextColor="White"
+                VerticalOptions="End" />
+        </Grid>
+    </Shell.FlyoutHeader>
+
+    <!--  Con este codigo se ocultan los FlyoutItem  -->
+    <Shell.ItemTemplate>
+        <DataTemplate>
+            <Grid Padding="0,10" ColumnDefinitions="0.25*,0.75*">
+
+                <Image
+                    HeightRequest="45"
+                    HorizontalOptions="Center"
+                    Source="home_24dp_white.png" />
+
+                <Label
+                    Grid.Column="1"
+                    FontAttributes="Bold"
+                    FontSize="Large"
+                    VerticalOptions="Center" />
+            </Grid>
+        </DataTemplate>
+    </Shell.ItemTemplate>
+
+    <MenuItem>
+        <Shell.MenuItemTemplate>
+            <DataTemplate>
+                <Label BackgroundColor="LightGray" HeightRequest="1" />
+            </DataTemplate>
+        </Shell.MenuItemTemplate>
+    </MenuItem>
+
+    <!--  Cerrar Sesión  -->
+    <MenuItem
+        Command="{Binding CerrarSesionCommand}"
+        IconImageSource="logout_24dp_black.png"
+        Text="Cerrar Sesión" />
+
+    <!--  Salir de la App  -->
+    <MenuItem
+        Command="{Binding SalirCommand}"
+        IconImageSource="exit_to_app_24dp_black.png"
+        Text="Salir" />
+
+    <FlyoutItem Title="Login" Icon="home_24dp_white.png">
+        <Tab>
+            <ShellContent ContentTemplate="{DataTemplate views:LoginPage}" Route="LoginPage" />
+        </Tab>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Pedidos" Icon="pedidos_icon.png">
+        <Tab>
+            <ShellContent ContentTemplate="{DataTemplate views:ListaPedidosPage}" Route="ListaPedidosPage" />
+        </Tab>
+    </FlyoutItem>
+
+    <!--  FlyoutFooter  -->
+    <Shell.FlyoutFooter>
+        <StackLayout BackgroundColor="#c1c1c1">
+            <Label
+                FontAttributes="Bold"
+                HorizontalOptions="Center"
+                Text="Ferretianguis"
+                TextColor="Black" />
+            <!--  - se tiene que agregar una referencia xmlns:sys="clr-namespace:System;assembly=netstandard"  -->
+            <Label
+                HorizontalOptions="Center"
+                Text="{Binding Source={x:Static sys:DateTime.Now}, StringFormat='{0:MMMM dd, yyyy}'}"
+                TextColor="Black" />
+        </StackLayout>
+    </Shell.FlyoutFooter>
+
 
 </Shell>

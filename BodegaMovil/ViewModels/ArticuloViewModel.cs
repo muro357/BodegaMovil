@@ -86,7 +86,8 @@ namespace BodegaMovil.ViewModels
         [RelayCommand]
         public async Task GoToListaArticulos()
         {
-            await Shell.Current.GoToAsync($"{nameof(ListaArticulosPage)}?folio={_pedido.Folio}&id_area_surtir={_pedido.ID_AreaSurtir}");
+            await Shell.Current.GoToAsync("..");
+            //await Shell.Current.GoToAsync($"{nameof(ListaArticulosPage)}?folio={_pedido.Folio}&id_area_surtir={_pedido.ID_AreaSurtir}");
         }
 
         #region Validaciones

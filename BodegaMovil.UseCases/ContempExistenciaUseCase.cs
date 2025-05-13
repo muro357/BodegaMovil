@@ -23,7 +23,6 @@ namespace BodegaMovil.UseCases
 
         public async Task<bool> ExecuteAsync(PedidoDTO pedidoDTO)
         {
-            //var pedido = _mapa.GetEntity<PedidoDTO, Pedido>(pedidoDTO);
             bool ok = false;
 
             List<PedidoDetalle> list = new List<PedidoDetalle>();
@@ -31,9 +30,10 @@ namespace BodegaMovil.UseCases
             {
                 if (current.ExistenciaCedis <= 0f)
                 {
+                    current.CantidadSurtida = 0;
+                    current.Contenedor = 0;
+                    current.SurtidoPor = pedidoDTO.SurtidoPor;
                     var item = _mapa.GetEntity<PedidoDetalleDTO, PedidoDetalle>(current);
-                    item.CantidadSurtida = 0;
-                    item.Contenedor = 0;
                     list.Add(item);
                 }
             }
@@ -41,14 +41,8 @@ namespace BodegaMovil.UseCases
             {
                 ok = await _pedidoRepository.SurtirVarios(pedidoDTO.Folio,list);
             }
-
-            foreach (var item in list)
-            {
-                item.CantidadSurtida = new float?(0f);
-            }
-
+            
             return ok;
-            //Task.CompletedTask;
         }
     }
 }

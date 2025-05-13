@@ -1,165 +1,184 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:vm="clr-namespace:BodegaMovil.ViewModels"
-             xmlns:m="clr-namespace:BodegaMovil.UseCases.DTO;assembly=BodegaMovil.UseCases"
-             x:DataType="vm:ListaArticulosViewModel"
-             x:Class="BodegaMovil.Views.ListaArticulosPage"
-             Title="Lista de Articulos" >
+<ContentPage
+    x:Class="BodegaMovil.Views.ListaArticulosPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:m="clr-namespace:BodegaMovil.UseCases.DTO;assembly=BodegaMovil.UseCases"
+    xmlns:vm="clr-namespace:BodegaMovil.ViewModels"
+    Title="Lista de Articulos"
+    x:DataType="vm:ListaArticulosViewModel"
+    Shell.BackgroundColor="#0A2E64"
+    Shell.TitleColor="White">
 
-    <Grid Padding="5"
-    RowDefinitions="Auto,Auto,*,Auto"
-    >
+    <Grid Padding="5" RowDefinitions="Auto,Auto,Auto,*,Auto">
+        <!--  1. Agrega un focus trap invisible para evitar que se abra el picker en android 8  -->
+        <Entry
+            x:Name="FocusTrapEntry"
+            HeightRequest="1"
+            IsVisible="true"
+            Text=""
+            WidthRequest="1" />
 
-        <!-- Encabezado con botón de regreso mejorado -->
-        <Grid Grid.Row="0" Padding="5" ColumnDefinitions="Auto, Auto, Auto" ColumnSpacing="20">
-            <ImageButton    x:Name="BackButton"
-                             Source="arrow_back.png"
-                             HeightRequest="50"
-                             WidthRequest="50"
-                             BackgroundColor="Transparent"
-                             Padding="5"
-                             Clicked="BackButton_Clicked"
-                             />
-            <Picker ItemsSource="{Binding ListaOrdenarPor}"
-                    SelectedItem="{Binding Ordenar}"
-                    Title="Ordenar Por"
-                    HeightRequest="50"
-                    WidthRequest="150"
-                    Grid.Column="1">
-                
-            </Picker>
+        <Grid 
+            ColumnDefinitions="Auto,Auto,Auto" 
+            ColumnSpacing="10" 
+            VerticalOptions="Center" 
+            HorizontalOptions="Center"
+            Grid.Row="0" 
+            Padding="2" 
+            Margin="2">
+            <Label Grid.Column="0" Text="{Binding Pedido.Folio}" VerticalOptions="Start" FontAttributes="Bold" TextColor="DarkBlue"/>
+            <Label Grid.Column="1" Text = "{Binding Pedido.DescripcionTienda}" FontSize="Small" TextColor="DarkBlue"/>
+            <Label Grid.Column="2" Text = "{Binding Pedido.DescripcionArea}" FontSize="Small" TextColor="DarkBlue"/>
+        </Grid>
+        <!--  Encabezado con botón de regreso mejorado  -->
+        <Grid
+            Grid.Row="1"
+            Margin="2"
+            Padding="2"
+            ColumnDefinitions=" Auto, Auto"
+            ColumnSpacing="18" 
+            VerticalOptions="Center" HorizontalOptions="Center">
 
-            <Button 
-                 TextColor="White"
-                 Text="FIN"
-                 CornerRadius="25"
-                 WidthRequest="50"
-                 HeightRequest="50"
-                 BackgroundColor="OrangeRed"
-                 Padding="5"
-                 Grid.Column="2"
+            <!--<VerticalStackLayout HorizontalOptions="Center" Grid.Column="0">
+                <Label Text = "{Binding Pedido.DescripcionTienda}" FontSize="Small"/>
+                <Label Text = "{Binding Pedido.DescripcionArea}" FontSize="Small"/>
+            </VerticalStackLayout>-->
+
+            <Picker
+                x:Name="cboOrdenar"
+                Title="Ordenar Por"
+                Grid.Column="0"
+                HeightRequest="50"
+                ItemsSource="{Binding ListaOrdenarPor}"
+                SelectedItem="{Binding Ordenar}"
+                WidthRequest="140" />
+
+            <!--  Botón flotante dentro del Grid para que no haya conflicto con Content  -->
+            <Button
+                Grid.Column="1"
+                BackgroundColor="DodgerBlue"
                 Command="{Binding BuscarArticuloCommand}"
-                 />
+                CornerRadius="10"
+                HeightRequest="40"
+                Text="+"
+                FontAttributes="Bold"
+                FontSize="18"
+                TextColor="White"
+                WidthRequest="50" />
+
         </Grid>
 
-        
-            <SearchBar
+        <SearchBar
             x:Name="SearchBar"
-            Grid.Row="1"
+            Grid.Row="2"
             Grid.Column="0"
-            Placeholder="{Binding Placeholder}"           
+            Placeholder="{Binding Placeholder}"
             PlaceholderColor="Grey"
-            Text="{Binding Filtro}"
-            />
-        
-        <CollectionView 
-                Margin="5"
-                x:Name="ListaArticulosCollection"
-                Grid.Row="2"
-                ItemsSource="{Binding ListaArticulos}">
+            Text="{Binding Filtro}" />
+
+        <CollectionView
+            x:Name="ListaArticulosCollection"
+            Grid.Row="3"
+            Margin="5"
+            ItemsSource="{Binding ListaArticulos}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="m:PedidoDetalleDTO">
                     <SwipeView>
                         <SwipeView.RightItems>
                             <SwipeItems>
-                                <SwipeItem 
-                                   IconImageSource="contract_edit_white.png"
-                                   BackgroundColor="Blue"
-                                   Command="{Binding Source={x:Reference ListaArticulosCollection}, Path=BindingContext.CapturarArticuloCommand}"
-                                   CommandParameter="{Binding .}">    
-                                </SwipeItem>
-                                <SwipeItem 
-                                   IconImageSource="check_circle_white.png"
-                                   BackgroundColor="Green"
-                                   Command="{Binding Source={x:Reference ListaArticulosCollection}, Path=BindingContext.SurtirPedidoCommand}"
-                                   CommandParameter="{Binding .}">
-                                </SwipeItem>
+                                <SwipeItem
+                                    BackgroundColor="Blue"
+                                    Command="{Binding Source={x:Reference ListaArticulosCollection}, Path=BindingContext.CapturarArticuloCommand}"
+                                    CommandParameter="{Binding .}"
+                                    IconImageSource="contract_edit_white.png" />
+                                <SwipeItem
+                                    BackgroundColor="Green"
+                                    Command="{Binding Source={x:Reference ListaArticulosCollection}, Path=BindingContext.SurtirPedidoCommand}"
+                                    CommandParameter="{Binding .}"
+                                    IconImageSource="check_circle_white.png" />
                             </SwipeItems>
                         </SwipeView.RightItems>
 
-                        <Frame Padding="10" Margin="5" BorderColor="Gray">
+                        <Frame
+                            Margin="5"
+                            Padding="10"
+                            BorderColor="Gray">
                             <VerticalStackLayout>
 
                                 <HorizontalStackLayout>
-                                    <CheckBox IsChecked="{Binding Elegido, Mode=TwoWay}" VerticalOptions="Center"></CheckBox>
-                                    <Label Text="{Binding SKU}" FontAttributes="Bold" VerticalOptions="Center"/>
+                                    <CheckBox IsChecked="{Binding Elegido, Mode=TwoWay}" VerticalOptions="Center" />
+                                    <Label
+                                        FontAttributes="Bold"
+                                        Text="{Binding SKU}"
+                                        VerticalOptions="Center" />
                                 </HorizontalStackLayout>
-                                <Label Text="{Binding Descripcion}"/>
+                                <Label Text="{Binding Descripcion}" />
                                 <HorizontalStackLayout>
-                                    <Label Text="Pedido: "/>
-                                    <Label Text="{Binding CantidadPedida} "/>
-                                    <Label Text=" "/>
-                                    <Label Text="{Binding Unidad}"/>
-                                </HorizontalStackLayout>
-                                <HorizontalStackLayout>
-                                    <Label Text="Surtido: "/>
-                                    <Label Text="{Binding CantidadSurtida} "/>
-                                    <Label Text=" "/>
-                                    <Label Text="{Binding Unidad}"/>
+                                    <Label Text="Pedido: " />
+                                    <Label Text="{Binding CantidadPedida}" />
+                                    <Label Text=" " />
+                                    <Label Text="{Binding Unidad}" />
                                 </HorizontalStackLayout>
                                 <HorizontalStackLayout>
-                                    <Label Text="Ubicacion: "/>
-                                    <Label Text="{Binding UbicacionCedis}"/>
+                                    <Label Text="Surtido: " />
+                                    <Label Text="{Binding CantidadSurtida}" />
+                                    <Label Text=" " />
+                                    <Label Text="{Binding Unidad}" />
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout>
+                                    <Label Text="Ubicacion: " />
+                                    <Label Text="{Binding UbicacionCedis}" />
                                 </HorizontalStackLayout>
                             </VerticalStackLayout>
                         </Frame>
                     </SwipeView>
-
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <!-- Contenedor para los botones de acción -->
-        <Grid Row="3" Padding="10">
-            <Grid Padding="5" ColumnDefinitions="Auto, Auto" ColumnSpacing="30">
-            <HorizontalStackLayout HorizontalOptions="Center" Spacing="12" Grid.Column="0">
-                <ImageButton Source="cancel_white.png"
-                 HeightRequest="40"
-                 WidthRequest="40"
-                 BackgroundColor="red"
-                 Padding="5"
-                 CornerRadius="10"
-                 Command="{Binding DepurarCommand}"
-                 />
-                <ImageButton Source="remove_selection_white.png"
-                 HeightRequest="40"
-                 WidthRequest="40"
-                 BackgroundColor="RoyalBlue"
-                 Padding="5"
-                 CornerRadius="10"
-                 Command="{Binding ContemplarCommand}"
-                 />
-                    <Switch IsToggled="{Binding MostrarArtsSurtidos}" 
-                    OnColor="Green"
-                    ThumbColor="Red"
-                    />      
+        <!--  Contenedor para los botones de acción  -->
+        <Grid Padding="10" Row="4">
+            <Grid
+                Padding="5"
+                ColumnDefinitions="Auto, Auto"
+                ColumnSpacing="30">
+                <HorizontalStackLayout
+                    Grid.Column="0"
+                    HorizontalOptions="Center"
+                    Spacing="12">
+                    <ImageButton
+                        Padding="5"
+                        BackgroundColor="red"
+                        Command="{Binding DepurarCommand}"
+                        CornerRadius="10"
+                        HeightRequest="40"
+                        Source="cancel_white.png"
+                        WidthRequest="40" />
+                    <ImageButton
+                        Padding="5"
+                        BackgroundColor="RoyalBlue"
+                        Command="{Binding ContemplarCommand}"
+                        CornerRadius="10"
+                        HeightRequest="40"
+                        Source="remove_selection_white.png"
+                        WidthRequest="40" />
+                    <VerticalStackLayout HorizontalOptions="Center">
+                        <Label Text="{Binding TituloListaArts}" VerticalOptions="Center"/>
+                        <Switch 
+                        IsToggled="{Binding MostrarArtsSurtidos}"
+                        OnColor="Green"
+                        ThumbColor="Red" />
+                    </VerticalStackLayout>
                 </HorizontalStackLayout>
                 <HorizontalStackLayout Grid.Column="1" Spacing="-8">
-                    <CheckBox VerticalOptions="Center"
-                              IsChecked="{Binding MostrarSurtidosEnCeros}">
-                    </CheckBox>
-                    <Label Text="Surtidos En Ceros"  VerticalOptions="Center" VerticalTextAlignment="Center"></Label>
+                    <CheckBox IsChecked="{Binding MostrarSurtidosEnCeros}" VerticalOptions="Center" />
+                    <Label
+                        Text="Surtidos En Ceros"
+                        VerticalOptions="Center"
+                        VerticalTextAlignment="Center" />
                 </HorizontalStackLayout>
             </Grid>
         </Grid>
-
-        <!-- Botón flotante dentro del Grid para que no haya conflicto con Content -->
-        <Button Text="+" 
-                BackgroundColor="DodgerBlue" 
-                TextColor="White"
-                CornerRadius="25"
-                WidthRequest="50"
-                HeightRequest="50"
-                HorizontalOptions="End"
-                VerticalOptions="End"
-                Margin="20"
-                Command="{Binding BuscarArticuloCommand}"
-                />
     </Grid>
-
-    
-
-
-
 </ContentPage>

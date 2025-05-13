@@ -31,20 +31,16 @@ namespace BodegaMovil.UseCases
             {
                 if (current.Elegido)
                 {
-                   var linea = _mapa.GetEntity<PedidoDetalleDTO,PedidoDetalle>(current);
-                    linea.CantidadSurtida = 0;
-                    linea.Contenedor = 0;
+                    current.CantidadSurtida = 0;
+                    current.Contenedor = 0;
+                    current.SurtidoPor = pedidoDTO.SurtidoPor;
+                    var linea = _mapa.GetEntity<PedidoDetalleDTO,PedidoDetalle>(current);
                     list.Add(linea);
                 }
             }
             if (list.Count > 0)
             {
                 ok = await _pedidoRepository.SurtirVarios(pedidoDTO.Folio, list);
-            }
-
-            foreach(var item in list)
-            {
-                item.CantidadSurtida = new float?(0f);
             }
 
             return ok;

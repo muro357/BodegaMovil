@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BodegaMovil.UseCases.Interfaces.Services;
+using Microsoft.Maui.Storage;
 
 namespace BodegaMovil.Services.Settings.Preferences
 {
@@ -65,5 +66,39 @@ namespace BodegaMovil.Services.Settings.Preferences
             return cadena;
         }
         #endregion
+
+        #region Sincronicos
+        public void SetApiUrl(string url)
+        {
+            Microsoft.Maui.Storage.Preferences.Set(ApiUrlKey, url);
+        }
+
+        public string SetApiUrl()
+        {
+            return Microsoft.Maui.Storage.Preferences.Get(ApiUrlKey, string.Empty);
+        }
+
+        public void SetStoreId(string storeId)
+        {
+            Microsoft.Maui.Storage.Preferences.Set(StoreIdKey, storeId);
+        }
+
+        public string GetStoreId()
+        {
+            return Microsoft.Maui.Storage.Preferences.Get(StoreIdKey, string.Empty);
+        }
+
+        public void SetConnection(string cadena)
+        {
+            Microsoft.Maui.Storage.Preferences.Set(CadenaConexion, cadena);
+        }
+
+        public string GetConnection()
+        {
+            return Microsoft.Maui.Storage.Preferences.Get(CadenaConexion, string.Empty);
+        }
+        #endregion
+
+
     }
 }

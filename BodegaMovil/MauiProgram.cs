@@ -33,7 +33,6 @@ namespace BodegaMovil
             builder.Logging.AddDebug();
 #endif
             builder.Services.AddSingleton<ISetting, AppSettingsService>();
-            //builder.Services.AddSingleton<AppSettingsService>();
             builder.Services.AddSingleton<IMapa, AutoMapperConfig>();
             builder.Services.AddSingleton<IUsuarioRepository, UsuarioRepository>();
             builder.Services.AddSingleton<IPedidoRepository, PedidoRepository>();
