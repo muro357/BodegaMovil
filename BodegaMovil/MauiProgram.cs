@@ -9,6 +9,7 @@ using BodegaMovil.Plugins.DataStore.MySQL;
 using BodegaMovil.UseCases.Interfaces.Services;
 using BodegaMovil.Services.Maps.AutoMapper;
 using BodegaMovil.Services.Settings.Preferences;
+using Serilog;
 
 namespace BodegaMovil
 {
@@ -32,6 +33,12 @@ namespace BodegaMovil
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
+
+            builder.Services.AddSerilog(new LoggerConfiguration()
+                .WriteTo.Debug()
+                .WriteTo.File(Path.Combine(FileSystem.Current.AppDataDirectory, "logs", "logbodega.txt"), rollingInterval: RollingInterval.Day)
+                .CreateLogger());
+
             builder.Services.AddSingleton<ISetting, AppSettingsService>();
             builder.Services.AddSingleton<IMapa, AutoMapperConfig>();
             builder.Services.AddSingleton<IUsuarioRepository, UsuarioRepository>();

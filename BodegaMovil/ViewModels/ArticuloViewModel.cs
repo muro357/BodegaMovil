@@ -3,8 +3,6 @@ using BodegaMovil.UseCases;
 using BodegaMovil.UseCases.DTO;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System.Collections.ObjectModel;
-using BodegaMovil.Views;
 using BodegaMovil.CoreBusiness.Enums;
 using BodegaMovil.UseCases.Interfaces.Services;
 
@@ -87,7 +85,7 @@ namespace BodegaMovil.ViewModels
         public async Task GoToListaArticulos()
         {
             await Shell.Current.GoToAsync("..");
-            //await Shell.Current.GoToAsync($"{nameof(ListaArticulosPage)}?folio={_pedido.Folio}&id_area_surtir={_pedido.ID_AreaSurtir}");
+            
         }
 
         #region Validaciones

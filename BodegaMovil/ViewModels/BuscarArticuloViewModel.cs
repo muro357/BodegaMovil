@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using BodegaMovil.Services.Settings.Preferences;
+﻿using System.Collections.ObjectModel;
 using BodegaMovil.UseCases;
 using BodegaMovil.UseCases.DTO;
 using BodegaMovil.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using BodegaMovil.CoreBusiness;
 using System.Text.Json;
 using BodegaMovil.UseCases.Interfaces.Services;
 
@@ -19,18 +14,18 @@ namespace BodegaMovil.ViewModels
         private readonly GetArticuloUseCase _getArticulo;
         private readonly GetArticulosUseCase _getArticulos;
         private readonly ISetting _settings;
-        private JsonSerializerOptions _serializerOptions;
+        //private JsonSerializerOptions _serializerOptions;
         private int _id_tienda = 0;     
         private PedidoDTO _pedido;
         
         public BuscarArticuloViewModel(GetArticuloUseCase getArticulo, GetArticulosUseCase getArticulos, ISetting settings)
         {
-            _serializerOptions = new JsonSerializerOptions()
-            {
-                PropertyNameCaseInsensitive = true,
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                WriteIndented = true,
-            };
+            //_serializerOptions = new JsonSerializerOptions()
+            //{
+            //    PropertyNameCaseInsensitive = true,
+            //    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            //    WriteIndented = true,
+            //};
 
             _getArticulo = getArticulo;
             _getArticulos = getArticulos;
@@ -56,12 +51,22 @@ namespace BodegaMovil.ViewModels
         }
 
         [RelayCommand]
-        private async Task GoToAgregarArticulo(ArticuloDTO articulo)
+        private async Task AgregarArticulo(ArticuloDTO articulo)
         {
-            var pedido = JsonSerializer.Serialize(_pedido, _serializerOptions);
-            var art = JsonSerializer.Serialize(articulo, _serializerOptions);
+            try
+            {
+                var parametros = new Dictionary<string, object>
+                {
+                    { "pedido", _pedido },
+                    { "art", articulo }
+                };
 
-            await Shell.Current.GoToAsync($"{nameof(AgregaArticuloPage)}?pedido={pedido}&art={art}");
+                await Shell.Current.GoToAsync($"{nameof(AgregaArticuloPage)}", parametros);
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", $"Error al agregar artículo: {ex.Message}", "OK");
+            }
         }
 
         [RelayCommand]

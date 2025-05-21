@@ -17,10 +17,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BodegaMovil.Services.Maps.A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{71CF8CD5-F5F3-4A19-A9CC-C393BB0BABD4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BodegaMovil.WebAPI", "BodegaMovil.WebAPI\BodegaMovil.WebAPI.csproj", "{3B14B00A-8EF5-4C00-9897-4C34271DA34B}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BodegaMovil.Tests", "BodegaMovil.Tests\BodegaMovil.Tests.csproj", "{6FC58A84-56CB-40A9-8BFA-B600DFCFC109}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BodegaMovil.Services.Settings.Preferences", "Services\BodegaMovil.Services.Settings.Preferences\BodegaMovil.Services.Settings.Preferences.csproj", "{CA3C19D3-26CD-4FF7-8042-60251CD0DDB0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BodegaMovil.Plugins.DataStore.MySQL", "Plugins\BodegaMovil.Plugins.DataStore.SQLServer\BodegaMovil.Plugins.DataStore.MySQL.csproj", "{8CE930FA-2D05-499F-9699-C1F2425CA811}"
@@ -53,14 +49,6 @@ Global
 		{AFAF5A91-27E5-4402-B155-139A01636C98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AFAF5A91-27E5-4402-B155-139A01636C98}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AFAF5A91-27E5-4402-B155-139A01636C98}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3B14B00A-8EF5-4C00-9897-4C34271DA34B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3B14B00A-8EF5-4C00-9897-4C34271DA34B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3B14B00A-8EF5-4C00-9897-4C34271DA34B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3B14B00A-8EF5-4C00-9897-4C34271DA34B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6FC58A84-56CB-40A9-8BFA-B600DFCFC109}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6FC58A84-56CB-40A9-8BFA-B600DFCFC109}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6FC58A84-56CB-40A9-8BFA-B600DFCFC109}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6FC58A84-56CB-40A9-8BFA-B600DFCFC109}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CA3C19D3-26CD-4FF7-8042-60251CD0DDB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CA3C19D3-26CD-4FF7-8042-60251CD0DDB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA3C19D3-26CD-4FF7-8042-60251CD0DDB0}.Release|Any CPU.ActiveCfg = Release|Any CPU

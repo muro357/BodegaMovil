@@ -3,13 +3,15 @@ using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using BodegaMovil.CoreBusiness;
 using BodegaMovil.UseCases;
-using BodegaMovil.Services.Settings.Preferences;
 using BodegaMovil.UseCases.Interfaces.Services;
+using System.Diagnostics;
+using Microsoft.Extensions.Logging;
 
 namespace BodegaMovil.ViewModels
 {
     public partial class ConfiguracionViewModel : ObservableObject
     {
+        private ILogger<ConfiguracionViewModel> _logger;
         private readonly ISetting _settings;
         private readonly ProbarConexionUseCase _probarConexion;
         private readonly GetTiendasHabilitadasUseCase _getTiendasHabilitadas;
@@ -23,35 +25,44 @@ namespace BodegaMovil.ViewModels
         [ObservableProperty] private bool conexionExitosa = false;
         [ObservableProperty] private string mensajeConexion="";
 
-        public ConfiguracionViewModel(ISetting settings, ProbarConexionUseCase probarConexion, GetTiendasHabilitadasUseCase getTiendasHabilitadas)
+        public ConfiguracionViewModel(ISetting settings, ProbarConexionUseCase probarConexion, GetTiendasHabilitadasUseCase getTiendasHabilitadas, ILogger<ConfiguracionViewModel> logger)
         {
             _settings = settings;
             _probarConexion = probarConexion;
             _getTiendasHabilitadas = getTiendasHabilitadas;
+            _logger = logger;
 
             //CargarConfiguracionGuardada();
         }
 
         public async Task CargarConfiguracionGuardada()
         {
-            //ApiUrl = await _settings.GetApiUrlAsync();
-            Cadena = _settings.GetConnection();
-            var tiendaId = _settings.GetConnection();
-
-            if(string.IsNullOrWhiteSpace(Cadena))
+            try
             {
-                Cadena = "Server=10.0.2.2;Database=ferre;User ID=root;Password=12345678";
-            }
+                var x = await _settings.GetConnectionAsync();
+                var tiendaId = await _settings.GetStoreIdAsync();
+
+                _logger.LogInformation("userId: " + Cadena);
             
+                if (string.IsNullOrWhiteSpace(Cadena))
+                {
+                    Cadena = "Server=10.0.2.2;Database=ferre;User ID=root;Password=12345678";
+                }
 
+                _idTiendaSelected = int.TryParse(tiendaId, out var id) ? id : 0;
 
-            _idTiendaSelected = int.TryParse(tiendaId, out var id) ? id : 0;
-
-            if (!string.IsNullOrWhiteSpace(tiendaId) && _idTiendaSelected > 0) 
-            {
-                await CargarTiendasAsync();
+                if (!string.IsNullOrWhiteSpace(tiendaId) && _idTiendaSelected > 0) 
+                {
+                    await CargarTiendasAsync();
+                }
             }
-                //TiendaSeleccionada =  // Se puede reemplazar al cargar la lista real
+            catch (Exception ex)
+            {
+                // Manejo de excepciones
+                // Puedes registrar el error o mostrar un mensaje al usuario
+                _logger.LogError(ex, "Error al cargar la configuración guardada");
+                //Debug.WriteLine($"Error al cargar la configuración: {ex.Message}");
+            }
         }
 
         [RelayCommand]

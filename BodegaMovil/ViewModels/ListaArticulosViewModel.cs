@@ -32,7 +32,6 @@ namespace BodegaMovil.ViewModels
         [ObservableProperty] private string _placeholder;
         [ObservableProperty] private string _placeholdercolor;
         [ObservableProperty] private string _user;
-        private JsonSerializerOptions _serializerOptions;
 
         public ListaArticulosViewModel(GetPedidoSurtirUseCase getPedido, DepurarUseCase depurar, GetArticulosUseCase getArticulos, ContemplarExistenciaUseCase contemplar, SurtirUseCase surtir, FinalizarSurtidoUseCase finalizar, ISetting settings)
         {
@@ -49,12 +48,6 @@ namespace BodegaMovil.ViewModels
             _mostrarArtsSurtidos = false;
             _mostrarSurtidosCeros = false;
 
-            _serializerOptions = new JsonSerializerOptions()
-            {
-                PropertyNameCaseInsensitive = true,
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                WriteIndented = true,
-            };
         }
 
         
@@ -187,16 +180,37 @@ namespace BodegaMovil.ViewModels
         [RelayCommand]
         public async Task CapturarArticulo(PedidoDetalleDTO item)
         {
-            var pedido = JsonSerializer.Serialize(Pedido, _serializerOptions);
-            var linea = JsonSerializer.Serialize(item, _serializerOptions);
-            await Shell.Current.GoToAsync($"{nameof(CapturaArticuloPage)}?pedido={pedido}&linea={linea}");
+            try
+            {
+                var parametros = new Dictionary<string, object>
+                {
+                    { "pedido", Pedido },
+                    { "linea", item }
+                };
+
+                await Shell.Current.GoToAsync($"{nameof(CapturaArticuloPage)}",parametros);
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", $"Error al capturar artículo: {ex.Message}", "OK");
+            }
         }
 
         [RelayCommand]
         public async Task BuscarArticulo()
         {
-            var pedido = JsonSerializer.Serialize(Pedido, _serializerOptions);
-            await Shell.Current.GoToAsync($"{nameof(BuscarArticuloPage)}?pedido={pedido}");
+            try
+            {
+                await Shell.Current.GoToAsync($"{nameof(BuscarArticuloPage)}", 
+                    new Dictionary<string, object>
+                    {
+                        {"Pedido",Pedido }
+                    });
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", $"Error al buscar artículo: {ex.Message}", "OK");
+            }
         }
 
 
@@ -259,39 +273,6 @@ namespace BodegaMovil.ViewModels
             }
         }
 
-        //[RelayCommand]
-        //public async Task Finalizar()
-        //{
-        //    var porSurtir = _pedido.ArticulosPorSurtir.Count();
-
-        //    if(porSurtir > 0)
-        //    {
-        //        var mensaje = $"No se puede finalizar el pedido, hay {porSurtir} artículos por surtir.";
-        //        await Application.Current.MainPage.DisplayAlert("Finalizar", mensaje, "OK");
-        //    }
-        //    else
-        //    {
-        //        bool confirmar = await Application.Current.MainPage.DisplayAlert(
-        //        "Aviso",
-        //        "¿Desea Finalizar El Surtido?, Si es Pedido Sugerido no podra acceder de nuevo a este pedido; si es Pedido Especial mientras todos los Surtidores del pedido no le den Finalizar podra seguir teniendo acceso",
-        //        "Sí", "No");
-
-        //        if (confirmar)
-        //        {
-        //            var res = await _finalizar.ExecuteAsync(_pedido);
-        //            if (res)
-        //            {
-        //                await Application.Current.MainPage.DisplayAlert("Finalizar", "Pedido finalizado", "OK");
-        //                await Shell.Current.GoToAsync($"{nameof(ListaPedidosPage)}?reset=1");
-        //            }
-        //            else
-        //            {
-        //                await Application.Current.MainPage.DisplayAlert("Finalizar", "Error al finalizar el pedido", "OK");
-        //            }
-        //        }
-        //    }
-
-
-        //}
+        
     }
 }

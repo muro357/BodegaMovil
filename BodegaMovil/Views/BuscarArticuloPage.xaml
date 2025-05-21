@@ -47,13 +47,7 @@
             Padding="10"
             ColumnDefinitions="Auto, Auto"
             ColumnSpacing="10">
-            <!--<SearchBar
-                    Grid.Column="0"
-                    x:Name="SearchBar"
-                    Placeholder="Escriba el filtro"
-                    PlaceholderColor="Grey"
-                    Text="{Binding Filtro}" WidthRequest="290"
-                    />-->
+
             <Entry
                 x:Name="SearchBar"
                 Grid.Column="0"
@@ -86,7 +80,7 @@
                             <SwipeItems>
                                 <SwipeItem
                                     BackgroundColor="Green"
-                                    Command="{Binding Source={x:Reference ListaArticulosCollection}, Path=BindingContext.GoToAgregarArticuloCommand}"
+                                    Command="{Binding Source={x:Reference ListaArticulosCollection}, Path=BindingContext.AgregarArticuloCommand}"
                                     CommandParameter="{Binding .}"
                                     IconImageSource="check_circle_white.png" />
                             </SwipeItems>

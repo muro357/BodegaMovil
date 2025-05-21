@@ -12,38 +12,23 @@ namespace BodegaMovil.Views;
 public partial class CapturaArticuloPage : ContentPage
 {
     private readonly ArticuloViewModel _articuloView;
-    private JsonSerializerOptions _serializerOptions;
     private PedidoDTO _pedido;
     private PedidoDetalleDTO _linea;    
     public CapturaArticuloPage(ArticuloViewModel articuloView)
 	{
-        _serializerOptions = new JsonSerializerOptions()
-        {
-            PropertyNameCaseInsensitive = true,
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            WriteIndented = true,
-        };
-
         InitializeComponent();
         _articuloView = articuloView;
         this.BindingContext = _articuloView;
     }
 
-   
-    public string Pedido
-	{ 
-		set
-        {
-            _pedido = JsonSerializer.Deserialize<PedidoDTO>(value, _serializerOptions);
-        }
+    public PedidoDTO Pedido
+    {
+        set => _pedido = value;
     }
 
-    public string Linea
+    public PedidoDetalleDTO Linea
     {
-        set
-        {
-            _linea = JsonSerializer.Deserialize<PedidoDetalleDTO>(value, _serializerOptions); ;
-        }
+        set => _linea = value;
     }
 
     private async Task LoadArticulo(PedidoDTO pedido, PedidoDetalleDTO linea)
@@ -53,6 +38,7 @@ public partial class CapturaArticuloPage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
+
 
         await LoadArticulo(_pedido, _linea);
         

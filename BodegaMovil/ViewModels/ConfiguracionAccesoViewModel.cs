@@ -1,6 +1,7 @@
 ﻿using BodegaMovil.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,13 @@ namespace BodegaMovil.ViewModels
 {
     public partial class ConfiguracionAccesoViewModel : ObservableObject
     {
+        private readonly ILogger<ConfiguracionAccesoViewModel> _logger;
+
+        public ConfiguracionAccesoViewModel(ILogger<ConfiguracionAccesoViewModel> logger)
+        {
+            _logger = logger;
+        }
+
         public ConfiguracionAccesoViewModel(){}
 
         [ObservableProperty]
@@ -30,7 +38,16 @@ namespace BodegaMovil.ViewModels
             }
             else if (User == "admin" && Password == "control")
             {
-                await Shell.Current.GoToAsync($"{nameof(ConfiguracionPage)}");
+                try
+                {
+                    _logger.LogInformation("Accediendo a la configuración con usuario: {User}", User);
+                    await Shell.Current.GoToAsync($"{nameof(ConfiguracionPage)}");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error al navegar a la página de configuración");
+                    await Application.Current.MainPage.DisplayAlert("Error", "No se pudo acceder a la página de configuración" + ex.Message, "OK");
+                }
             }
             else
                 await Application.Current.MainPage.DisplayAlert("Error", "El usuario y/o password es incorrecto", "OK");

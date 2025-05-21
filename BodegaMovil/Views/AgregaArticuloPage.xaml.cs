@@ -13,34 +13,27 @@ public partial class AgregaArticuloPage : ContentPage
         
     private PedidoDTO _pedido;
     private ArticuloDTO _art;
-    private JsonSerializerOptions _serializerOptions;
+    
     public AgregaArticuloPage(ArticuloViewModel articuloView)
     {
-        _serializerOptions = new JsonSerializerOptions()
-        {
-            PropertyNameCaseInsensitive = true,
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            WriteIndented = true,
-        };
-
         InitializeComponent();
         _articuloView = articuloView;
         this.BindingContext = _articuloView;
     }
 
-    public string Pedido
+    public PedidoDTO Pedido
     {
         set
         {
-            _pedido = JsonSerializer.Deserialize<PedidoDTO>(value, _serializerOptions);
+            _pedido = value;
         }
     }
 
-    public string Art
+    public ArticuloDTO Art
     {
         set
         {
-            _art = JsonSerializer.Deserialize<ArticuloDTO>(value, _serializerOptions); ;
+            _art = value; ;
         }
     }
 

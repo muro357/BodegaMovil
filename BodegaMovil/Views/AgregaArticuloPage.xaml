@@ -6,6 +6,5 @@
     xmlns:controls="clr-namespace:BodegaMovil.Views.Controls"
     Title="Agrega Articulo"
     Shell.NavBarIsVisible="False">
-
     <controls:ArticuloControl BindingContext="{Binding .}" IsForAdd="True" />
 </ContentPage>
