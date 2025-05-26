@@ -204,7 +204,7 @@ namespace BodegaMovil.ViewModels
                 await Shell.Current.GoToAsync($"{nameof(BuscarArticuloPage)}", 
                     new Dictionary<string, object>
                     {
-                        {"Pedido",Pedido }
+                        {"pedido",Pedido }
                     });
             }
             catch (Exception ex)
